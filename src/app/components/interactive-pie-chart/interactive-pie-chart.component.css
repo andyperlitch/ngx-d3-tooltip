@@ -1,3 +1,6 @@
-:host {
+interactive-pie-chart {
   display: block;
+}
+interactive-pie-chart path.slice {
+  cursor: pointer;
 }

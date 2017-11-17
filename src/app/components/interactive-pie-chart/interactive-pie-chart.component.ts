@@ -1,10 +1,13 @@
-import { Component, ElementRef, Input, OnChanges } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, ViewEncapsulation } from '@angular/core';
+import { D3TooltipService } from '../../modules/d3-tooltip/d3-tooltip.service';
+import { SliceTooltipComponent } from '../slice-tooltip/slice-tooltip.component';
 import * as d3 from 'd3';
 
 @Component({
   selector: 'interactive-pie-chart',
   templateUrl: './interactive-pie-chart.component.html',
-  styleUrls: ['./interactive-pie-chart.component.css']
+  styleUrls: ['./interactive-pie-chart.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class InteractivePieChartComponent implements OnChanges {
 
@@ -21,8 +24,9 @@ export class InteractivePieChartComponent implements OnChanges {
   private cnv: d3.Selection<SVGGElement, {}, null, undefined>;
   private arc: d3.Arc<any, any>;
   private highlightArc: d3.Arc<any, any>;
+  private sliceTooltip: any;
 
-  constructor(el: ElementRef) {
+  constructor(el: ElementRef, tipService: D3TooltipService) {
     // Set up svg root elements
     this.svg = d3.select(el.nativeElement)
       .append('svg');    
@@ -47,6 +51,11 @@ export class InteractivePieChartComponent implements OnChanges {
       .outerRadius(this.radius + 20)
       .startAngle(d => d.startAngle)
       .endAngle(d => d.endAngle);
+    
+
+    this.sliceTooltip = tipService.createFromComponent(SliceTooltipComponent, (slice: IPieChartDatum) => {
+      return { slice };
+    });
   }
 
   ngOnChanges() {
@@ -93,24 +102,10 @@ export class InteractivePieChartComponent implements OnChanges {
     let newSlice = slice.enter()
       .append('path')
       .classed('slice', true)
-      .attr('fill', d => {
-        console.log(d.color);
-        return d.color;
-      })
+      .attr('fill', d => d.color)
       .attr('d', this.arc)
-      .on('mouseenter', function(d) {
-        console.log('testing')
-        d3.select(this)
-          .transition()
-          .ease(d3.easeBack)
-          .attr('d', self.highlightArc);
-      })
-      .on('mouseleave', function(d) {
-        d3.select(this)
-          .transition()
-          .ease(d3.easeBack)
-          .attr('d', self.arc);
-      });
+      .call(this.highlightSlice, this)
+      .call(this.sliceTooltip);
 
     // MERGE
     slice = newSlice.merge(slice);
@@ -118,7 +113,22 @@ export class InteractivePieChartComponent implements OnChanges {
     // ENTER+UPDATE
     
 
+  }
 
+  private highlightSlice(selection, self) {
+    selection
+      .on('mouseenter', function (d) {
+        d3.select(this)
+          .transition()
+          .ease(d3.easeBack)
+          .attr('d', self.highlightArc);
+      })
+      .on('mouseleave', function (d) {
+        d3.select(this)
+          .transition()
+          .ease(d3.easeBack)
+          .attr('d', self.arc);
+      });
   }
 
   private updateCanvasDimensions() {

@@ -1,3 +1,4 @@
-<p>
-  d3-tooltip works!
-</p>
+<div class="ngx-d3-tooltip {{ cssClasses }}" [ngClass]="{ 'ngx-d3-tooltip_visible': isVisible }">
+  <div class="arrow"></div>
+  <ng-template d3TooltipHost></ng-template>
+</div>

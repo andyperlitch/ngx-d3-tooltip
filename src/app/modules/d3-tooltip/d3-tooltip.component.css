@@ -1,0 +1,30 @@
+d3-tooltip {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: visible;
+  display: block;
+}
+d3-tooltip .ngx-d3-tooltip {
+  display: inline-block;
+  position: relative;
+  background-color: #fff;
+  border-color: #CCC;
+  border-radius: 2px;
+  box-shadow: 0 1px 10px -3px rgba(0,0,0,0.3);
+  padding: 0.5rem 1rem;
+  opacity: 0;
+  transition: opacity 0.2s ease-in;
+}
+d3-tooltip .ngx-d3-tooltip.ngx-d3-tooltip_visible {
+  opacity: 1;
+}
+d3-tooltip .ngx-d3-tooltip .arrow {
+  border-width: 1.5rem;
+}
+d3-tooltip .ngx-d3-tooltip.top {
+  transform: translateX(-50%);
+  position: absolute;
+  left: 0;
+  bottom: 20px;
+}
