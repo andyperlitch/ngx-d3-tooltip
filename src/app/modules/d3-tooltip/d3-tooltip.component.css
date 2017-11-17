@@ -49,13 +49,13 @@ d3-tooltip .ngx-d3-tooltip.top .arrow {
 
 d3-tooltip .ngx-d3-tooltip.top .arrow::before {
   bottom: -20px;
-  margin-left: -.8rem;
+  margin-left: -10px;
   border-top-color: #00000040;
 }
 
 d3-tooltip .ngx-d3-tooltip.top .arrow::after {
   bottom: -19px;
-  margin-left: -.8rem;
+  margin-left: -10px;
   border-top-color: #fff;
 }
 
@@ -74,12 +74,36 @@ d3-tooltip .ngx-d3-tooltip.bottom .arrow {
 
 d3-tooltip .ngx-d3-tooltip.bottom .arrow::before {
   top: -20px;
-  margin-left: -.8rem;
+  margin-left: -10px;
   border-bottom-color: #00000040;
 }
 
 d3-tooltip .ngx-d3-tooltip.bottom .arrow::after {
   top: -19px;
-  margin-left: -.8rem;
+  margin-left: -10px;
   border-bottom-color: #fff;
+}
+/* LEFT */
+d3-tooltip .ngx-d3-tooltip.left {
+  transform: translateY(-50%);
+  position: absolute;
+  right: 20px;
+  top: 0;
+}
+
+d3-tooltip .ngx-d3-tooltip.left .arrow {
+  right: 0;
+  top: 50%;
+}
+
+d3-tooltip .ngx-d3-tooltip.left .arrow::before {
+  right: -20px;
+  margin-top: -10px;
+  border-left-color: #00000040;
+}
+
+d3-tooltip .ngx-d3-tooltip.left .arrow::after {
+  right: -19px;
+  margin-top: -10px;
+  border-left-color: #fff;
 }
