@@ -31,9 +31,11 @@ export class D3TooltipService {
     component: any,
     inputsFactory: Function = (d?) => { return {}; },
     outputsFactory: Function = () => { return {}; },
-    options: ITooltipOptions = Object.assign({}, DEFAULT_OPTIONS)
+    options: ITooltipOptions = {}
   ): (selection) => void {
     let d3TooltipService = this;
+    options = Object.assign({}, DEFAULT_OPTIONS, options);
+    debugger;
     return function (selection) {
 
       // the timer id for the timer set to open the tooltip
@@ -210,13 +212,13 @@ export interface ITooltipPosition {
 
 export interface ITooltipOptions {
   // How long before tooltip appears
-  delay: number;
+  delay?: number;
   // How long after mouseout the tooltip disappears
-  offDelay: number;
+  offDelay?: number;
   // Where the tooltip is anchored (not to be confused with position)
-  location: 'mouse' | 'element';
+  location?: 'mouse' | 'element';
   // The direction from the anchor that the tooltip opens up from
-  position: 'auto' | 'top' | 'left' | 'bottom' | 'right' | 'topRight' | 'topLeft' | 'bottomRight' | 'bottomLeft';
+  position?: 'auto' | 'top' | 'left' | 'bottom' | 'right' | 'topRight' | 'topLeft' | 'bottomRight' | 'bottomLeft';
   // Additional classes added to the visible tooltip element.
   cssClasses?: string;
 };
@@ -225,6 +227,6 @@ export const DEFAULT_OPTIONS: ITooltipOptions = {
   delay: 1000,
   offDelay: 1000,
   location: 'mouse',
-  position: 'top',
+  position: 'bottom',
   cssClasses: ''
 };

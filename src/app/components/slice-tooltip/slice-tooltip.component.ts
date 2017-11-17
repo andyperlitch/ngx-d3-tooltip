@@ -1,15 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { IPieChartDatum } from '../interactive-pie-chart/interactive-pie-chart.component'
 
 @Component({
   selector: 'slice-tooltip',
   templateUrl: './slice-tooltip.component.html',
   styleUrls: ['./slice-tooltip.component.css']
 })
-export class SliceTooltipComponent implements OnInit {
+export class SliceTooltipComponent {
 
-  constructor() { }
+  @Input()
+  slice: IPieChartDatum;
 
-  ngOnInit() {
+  @Output()
+  select = new EventEmitter<IPieChartDatum>();
+
+  onSliceSelect() {
+    this.select.emit(this.slice);
   }
 
 }

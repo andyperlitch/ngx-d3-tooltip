@@ -20,6 +20,8 @@ export class InteractivePieChartComponent implements OnChanges {
   @Input()
   margin = { left: 30, right: 30, top: 30, bottom: 30 };
 
+  selected: IPieChartDatum;
+
   private svg: d3.Selection<SVGElement, {}, null, undefined>;
   private cnv: d3.Selection<SVGGElement, {}, null, undefined>;
   private arc: d3.Arc<any, any>;
@@ -53,9 +55,20 @@ export class InteractivePieChartComponent implements OnChanges {
       .endAngle(d => d.endAngle);
     
 
-    this.sliceTooltip = tipService.createFromComponent(SliceTooltipComponent, (slice: IPieChartDatum) => {
-      return { slice };
-    });
+    this.sliceTooltip = tipService.createFromComponent(
+      SliceTooltipComponent,
+      (slice: IPieChartDatum) => {
+        return { slice };
+      },
+      () => {
+        return { select: (d: IPieChartDatum) => {
+          this.selected = d;
+        }}
+      },
+      {
+        position: 'right'
+      }
+    );
   }
 
   ngOnChanges() {
