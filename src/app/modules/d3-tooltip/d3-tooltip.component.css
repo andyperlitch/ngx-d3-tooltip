@@ -156,3 +156,27 @@ d3-tooltip .ngx-d3-tooltip.topRight .arrow::after {
   margin-left: -10px;
   border-top-color: #fff;
 }
+
+/* TOPLEFT */
+d3-tooltip .ngx-d3-tooltip.topLeft {
+  position: absolute;
+  right: -15px;
+  bottom: 20px;
+}
+
+d3-tooltip .ngx-d3-tooltip.topLeft .arrow {
+  bottom: 0;
+  right: 15px;
+}
+
+d3-tooltip .ngx-d3-tooltip.topLeft .arrow::before {
+  bottom: -20px;
+  margin-right: -10px;
+  border-top-color: #00000040;
+}
+
+d3-tooltip .ngx-d3-tooltip.topLeft .arrow::after {
+  bottom: -19px;
+  margin-right: -10px;
+  border-top-color: #fff;
+}
