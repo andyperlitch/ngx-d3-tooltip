@@ -15,16 +15,46 @@ d3-tooltip .ngx-d3-tooltip {
   padding: 0.5rem 1rem;
   opacity: 0;
   transition: opacity 0.2s ease-in;
+  border: 1px solid #00000020;
 }
 d3-tooltip .ngx-d3-tooltip.ngx-d3-tooltip_visible {
   opacity: 1;
 }
 d3-tooltip .ngx-d3-tooltip .arrow {
-  border-width: 1.5rem;
+  position: absolute;
+  display: block;
+  width: .8rem;
+  height: .4rem;
 }
+d3-tooltip .ngx-d3-tooltip .arrow::before, d3-tooltip .ngx-d3-tooltip .arrow::after {
+  position: absolute;
+  display: block;
+  border-color: #0000;
+  border-style: solid;
+  content: '';
+  border-width: 10px;
+}
+/* TOP */
 d3-tooltip .ngx-d3-tooltip.top {
   transform: translateX(-50%);
   position: absolute;
   left: 0;
   bottom: 20px;
+}
+
+d3-tooltip .ngx-d3-tooltip.top .arrow {
+  bottom: 0;
+  left: 50%;
+}
+
+d3-tooltip .ngx-d3-tooltip.top .arrow::before {
+  bottom: -20px;
+  margin-left: -.8rem;
+  border-top-color: #00000040;
+}
+
+d3-tooltip .ngx-d3-tooltip.top .arrow::after {
+  bottom: -19px;
+  margin-left: -.8rem;
+  border-top-color: #fff;
 }
