@@ -223,8 +223,8 @@ export interface ITooltipOptions {
 
 export const DEFAULT_OPTIONS: ITooltipOptions = {
   delay: 1000,
-  offDelay: 1000000,
+  offDelay: 1000,
   location: 'mouse',
-  position: 'topLeft',
+  position: 'top',
   cssClasses: ''
 };

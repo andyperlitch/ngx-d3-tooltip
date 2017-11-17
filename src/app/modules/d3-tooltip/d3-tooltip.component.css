@@ -180,3 +180,50 @@ d3-tooltip .ngx-d3-tooltip.topLeft .arrow::after {
   margin-right: -10px;
   border-top-color: #fff;
 }
+/* BOTTOMRIGHT */
+d3-tooltip .ngx-d3-tooltip.bottomRight {
+  position: absolute;
+  left: -15px;
+  top: 25px;
+}
+
+d3-tooltip .ngx-d3-tooltip.bottomRight .arrow {
+  top: 0;
+  left: 15px;
+}
+
+d3-tooltip .ngx-d3-tooltip.bottomRight .arrow::before {
+  top: -20px;
+  margin-left: -10px;
+  border-bottom-color: #00000040;
+}
+
+d3-tooltip .ngx-d3-tooltip.bottomRight .arrow::after {
+  top: -19px;
+  margin-left: -10px;
+  border-bottom-color: #fff;
+}
+
+/* BOTTOMLEFT */
+d3-tooltip .ngx-d3-tooltip.bottomLeft {
+  position: absolute;
+  right: -15px;
+  top: 25px;
+}
+
+d3-tooltip .ngx-d3-tooltip.bottomLeft .arrow {
+  top: 0;
+  right: 15px;
+}
+
+d3-tooltip .ngx-d3-tooltip.bottomLeft .arrow::before {
+  top: -20px;
+  margin-right: -10px;
+  border-bottom-color: #00000040;
+}
+
+d3-tooltip .ngx-d3-tooltip.bottomLeft .arrow::after {
+  top: -19px;
+  margin-right: -10px;
+  border-bottom-color: #fff;
+}
