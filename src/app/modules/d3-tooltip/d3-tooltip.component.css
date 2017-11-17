@@ -58,3 +58,28 @@ d3-tooltip .ngx-d3-tooltip.top .arrow::after {
   margin-left: -.8rem;
   border-top-color: #fff;
 }
+
+/* BOTTOM */
+d3-tooltip .ngx-d3-tooltip.bottom {
+  transform: translateX(-50%);
+  position: absolute;
+  left: 0;
+  top: 20px;
+}
+
+d3-tooltip .ngx-d3-tooltip.bottom .arrow {
+  top: 0;
+  left: 50%;
+}
+
+d3-tooltip .ngx-d3-tooltip.bottom .arrow::before {
+  top: -20px;
+  margin-left: -.8rem;
+  border-bottom-color: #00000040;
+}
+
+d3-tooltip .ngx-d3-tooltip.bottom .arrow::after {
+  top: -19px;
+  margin-left: -.8rem;
+  border-bottom-color: #fff;
+}
