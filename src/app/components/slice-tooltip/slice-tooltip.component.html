@@ -1,6 +1,6 @@
-<h3 [style.color]="slice.color">{{ slice.label }}</h3>
+<h5 [style.color]="slice.color">{{ slice.label }}</h5>
 <p>
-  amount: <strong>{{ slice.amount }}</strong>
+  amount: <strong>{{ slice.amount }}</strong><br>
+  <a href="javascript:void(0)" (click)="onSliceSelect()">Select</a>
 </p>
-<hr>
-<button class="btn btn-primary" type="button" role="button" (click)="onSliceSelect()">Select</button>
+

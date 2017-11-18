@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnChanges, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, AfterViewInit, OnInit, ViewEncapsulation } from '@angular/core';
 import { D3TooltipService } from '../../modules/d3-tooltip/d3-tooltip.service';
 import { SliceTooltipComponent } from '../slice-tooltip/slice-tooltip.component';
 import * as d3 from 'd3';
@@ -9,7 +9,7 @@ import * as d3 from 'd3';
   styleUrls: ['./interactive-pie-chart.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class InteractivePieChartComponent implements OnChanges {
+export class InteractivePieChartComponent implements OnChanges, OnInit {
 
   @Input()
   data: IPieChartDatum[];
@@ -28,15 +28,8 @@ export class InteractivePieChartComponent implements OnChanges {
   private highlightArc: d3.Arc<any, any>;
   private sliceTooltip: any;
 
-  constructor(el: ElementRef, tipService: D3TooltipService) {
-    // Set up svg root elements
-    this.svg = d3.select(el.nativeElement)
-      .append('svg');    
-    this.cnv = this.svg.append('g');
+  constructor(private el: ElementRef, tipService: D3TooltipService) {
     
-    // Set initial dimensions
-    this.updateCanvasDimensions();
-
     // Create the arc function
     this.arc = d3.arc<InteractivePieChartComponent, IPieChartDatum>()
       .cornerRadius(5)
@@ -66,9 +59,22 @@ export class InteractivePieChartComponent implements OnChanges {
         }}
       },
       {
-        position: 'right'
+        position: 'bottomRight'
       }
     );
+  }
+
+  // ngAfterViewInit() {
+  ngOnInit() {
+    // Set up svg root elements
+    let target: Element = this.el.nativeElement.querySelector('.pie-chart-target');
+    this.svg = d3.select(this.el.nativeElement.querySelector('.pie-chart-target'))
+      .append('svg');
+    this.cnv = this.svg.append('g');
+
+    // Set initial dimensions
+    this.updateCanvasDimensions();
+    this.render();
   }
 
   ngOnChanges() {
@@ -76,7 +82,7 @@ export class InteractivePieChartComponent implements OnChanges {
   }
 
   render() {
-    if (!this.data) {
+    if (!this.data || !this.svg || !this.cnv) {
       return;
     }
 

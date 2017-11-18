@@ -1,4 +1,15 @@
-<div *ngIf="selected">
-  <h3>Selected:</h3>
-  <pre>{{ selected | json }}</pre>
+<div class="row">
+
+  <div class="pie-chart-target col-sm-4">
+    
+  </div>
+
+  <div class="col-sm-8">
+    <div *ngIf="selected" class="card">
+      <div class="card-header">
+        <pre>{{ selected | json }}</pre>
+      </div>
+    </div>
+  </div>
+
 </div>

@@ -9,7 +9,9 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "packagr": "ng-packagr -p ng-package.json"
+    "packagr": "ng-packagr -p ng-package.json",
+    "docs": "compodoc src/app/modules/d3-tooltip -p ./tsconfig.json -y docs-styles/ --includes docs-md/ -d docs --hideGenerator",
+    "docs-coverage": "compodoc src/app/modules/d3-tooltip --coverageTest -p ./tsconfig.json -d docs -s -w --theme stripe"
   },
   "private": false,
   "dependencies": {
@@ -22,13 +24,15 @@
     "@angular/platform-browser": "^5.0.0",
     "@angular/platform-browser-dynamic": "^5.0.0",
     "@angular/router": "^5.0.0",
+    "@compodoc/compodoc": "^1.0.4",
     "core-js": "^2.4.1",
     "d3": "^4.11.0",
+    "request-progress": "^3.0.0",
     "rxjs": "^5.5.2",
     "zone.js": "^0.8.14"
   },
   "devDependencies": {
-    "@angular/cli": "1.5.0",
+    "@angular/cli": "^1.5.2",
     "@angular/compiler-cli": "^5.0.0",
     "@angular/language-service": "^5.0.0",
     "@types/d3": "^4.11.1",
@@ -46,6 +50,7 @@
     "karma-jasmine-html-reporter": "^0.2.2",
     "ng-packagr": "^1.6.0",
     "protractor": "~5.1.2",
+    "send": "^0.16.1",
     "ts-node": "~3.2.0",
     "tslint": "~5.7.0",
     "typescript": "~2.4.2"

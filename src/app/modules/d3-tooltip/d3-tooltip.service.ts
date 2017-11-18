@@ -35,7 +35,6 @@ export class D3TooltipService {
   ): (selection) => void {
     let d3TooltipService = this;
     options = Object.assign({}, DEFAULT_OPTIONS, options);
-    debugger;
     return function (selection) {
 
       // the timer id for the timer set to open the tooltip
