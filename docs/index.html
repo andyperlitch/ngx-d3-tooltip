@@ -50,22 +50,6 @@
                         </ul>
                     </li>
             
-                    <li class="chapter">
-                        <div class="simple menu-toggler" data-toggle="collapse"
-                                data-target="#xs-additional-pages"
-                            >
-                            <span class="fa fa-book"></span>
-                            <span>Additional documentation</span>
-                            <span class="fa fa-angle-down"></span>
-                        </div>
-                        <ul class="links collapse "
-                                id="xs-additional-pages"
-                            >
-                                <li class="link ">
-                                    <a href="./additional-documentation/a-title.html" >A TITLE</a>
-                                </li>
-                        </ul>
-                    </li>
             
                     <li class="chapter">
                         <a data-type="chapter-link" href="./modules.html" >
@@ -177,9 +161,6 @@
                         </ul>
                     </li>
             
-                    <li class="chapter">
-                        <a data-type="chapter-link" href="./routes.html" ><span class="fa fa-code-fork"></span>Routes</a>
-                    </li>
             
                     <li class="chapter">
                         <a data-type="chapter-link" href="./coverage.html" ><span class="fa fa-tasks"></span>Documentation coverage</a>
@@ -226,22 +207,6 @@
                                </ul>
                            </li>
                    
-                           <li class="chapter">
-                               <div class="simple menu-toggler" data-toggle="collapse"
-                                       data-target="#additional-pages"
-                   >
-                                   <span class="fa fa-book"></span>
-                                   <span>Additional documentation</span>
-                                   <span class="fa fa-angle-down"></span>
-                               </div>
-                               <ul class="links collapse "
-                                       id="additional-pages"
-                   >
-                                       <li class="link ">
-                                           <a href="./additional-documentation/a-title.html" >A TITLE</a>
-                                       </li>
-                               </ul>
-                           </li>
                    
                            <li class="chapter">
                                <a data-type="chapter-link" href="./modules.html" >
@@ -353,9 +318,6 @@
                                </ul>
                            </li>
                    
-                           <li class="chapter">
-                               <a data-type="chapter-link" href="./routes.html" ><span class="fa fa-code-fork"></span>Routes</a>
-                           </li>
                    
                            <li class="chapter">
                                <a data-type="chapter-link" href="./coverage.html" ><span class="fa fa-tasks"></span>Documentation coverage</a>
@@ -389,6 +351,12 @@ import { D3TooltipModule } from &#39;ngx-d3-tooltip&#39;;
 // ...</code></pre></li>
 </ol>
 <h2 id="usage">Usage</h2>
+<p>The main idea is that the <a href="https://andyperlitch.github.io/ngx-d3-tooltip/injectables/D3TooltipService.html#createFromComponent"><code>D3TooltipService.createFromComponent</code></a> method returns a function which is then passed to <code>d3.Selection.call</code>:</p>
+<pre class="line-numbers"><code class="language-typescript">let tooltip = d3TooltipService.createFromComponent(MyComponent, inputs, outputs, options);
+svg.selectAll(&#39;rect.example&#39;)
+  .data(myData)
+  .enter()
+  .call(tooltip);</code></pre><p>Here is a more in-depth example:</p>
 <ol>
 <li><p>Create the component you want to use as a tooltip</p>
 <pre class="line-numbers"><code class="language-typescript">// my-tooltip.component.ts:
@@ -467,14 +435,16 @@ export class MyD3ChartComponent {
  }
 }</code></pre></li>
 </ol>
-<p>TODOs:</p>
+<h2 id="documentation">Documentation</h2>
+<p><a href="https://andyperlitch.github.io/ngx-d3-tooltip/modules/D3TooltipModule.html">Documentation</a></p>
+<h2 id="todos-">TODOs:</h2>
 <ul>
 <li>[ ] raw template support</li>
 <li>[ ] position: auto support</li>
 <li>[ ] tests</li>
-<li>[ ] documentation</li>
-<li>[ ] </li>
 </ul>
+<h2 id="license">License</h2>
+<p>MIT</p>
 
 
 

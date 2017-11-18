@@ -31,6 +31,19 @@ D3.js is a great visualization library, but building dynamic tooltips is a bit c
 
 ## Usage
 
+The main idea is that the [`D3TooltipService.createFromComponent`](https://andyperlitch.github.io/ngx-d3-tooltip/injectables/D3TooltipService.html#createFromComponent) method returns a function which is then passed to `d3.Selection.call`:
+
+```typescript
+let tooltip = d3TooltipService.createFromComponent(MyComponent, inputs, outputs, options);
+svg.selectAll('rect.example')
+  .data(myData)
+  .enter()
+  .call(tooltip);
+```
+
+
+Here is a more in-depth example:
+
 1. Create the component you want to use as a tooltip
 
   ```typescript
@@ -120,13 +133,18 @@ D3.js is a great visualization library, but building dynamic tooltips is a bit c
   }
   ```
 
+## Documentation
 
+[Documentation](https://andyperlitch.github.io/ngx-d3-tooltip/modules/D3TooltipModule.html)
 
-
-TODOs:
+## TODOs:
 
 - [ ] raw template support
 - [ ] position: auto support
 - [ ] tests
-- [ ] documentation
-- [ ] 
+
+
+## License
+
+MIT
+

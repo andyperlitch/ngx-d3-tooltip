@@ -9,6 +9,9 @@ import {
 } from '@angular/core';
 import { D3TooltipComponent } from './d3-tooltip.component';
 
+/**
+ * The injectable class with methods that allow for d3 tooltip creation. Injectable as `d3TooltipService`.
+ */
 @Injectable()
 export class D3TooltipService {
 
@@ -157,6 +160,14 @@ export class D3TooltipService {
     };
   }
 
+  /**
+   * Displays the given component in a tooltip anchored 
+   * @param position The absolute coordinates of where the anchor for this tooltip is
+   * @param component The component to instantiate
+   * @param inputs The inputs to pass to the instantiated component
+   * @param outputs The output subscribe handlers to attach to outputs
+   * @param options Tooltip options object for further customization
+   */
   showTooltip(position: ITooltipPosition, component: any, inputs: any, outputs: any, options: ITooltipOptions): ComponentRef<D3TooltipComponent> {
     // credit: https://medium.com/@caroso1222/angular-pro-tip-how-to-dynamically-create-components-in-body-ba200cc289e6
     // 1. Create a component reference from the component 
@@ -185,6 +196,10 @@ export class D3TooltipService {
     return componentRef;
   }
 
+  /**
+   * Removes the given tooltip component reference.
+   * @param tooltipRef The component reference of the open tooltip to remove
+   */
   removeTooltip(tooltipRef: ComponentRef<D3TooltipComponent>) {
     tooltipRef.instance.isVisible = false;
     setTimeout(() => {
@@ -193,10 +208,14 @@ export class D3TooltipService {
     }, 1000);
   }
 
-  createFromTemplate(templateString: string) {
+  // createFromTemplate(templateString: string) {
 
-  }
+  // }
 
+  /**
+   * Given a component reference, returns the host DOM element.
+   * @param componentRef The component reference whose DOM element will be returned
+   */
   private getDomElementFromComponentRef(componentRef: ComponentRef<any>): HTMLElement {
     return (componentRef.hostView as EmbeddedViewRef<any>)
       .rootNodes[0] as HTMLElement;
@@ -204,24 +223,43 @@ export class D3TooltipService {
 
 }
 
+/**
+ * An interface for screen coordinates
+ */
 export interface ITooltipPosition {
   top: number;
   left: number;
 }
 
+/**
+ * The available tooltip customization options
+ */
 export interface ITooltipOptions {
-  // How long before tooltip appears
+  /**
+   * How long before tooltip appears
+   */
   delay?: number;
-  // How long after mouseout the tooltip disappears
+  /**
+   * How long after mouseout the tooltip disappears
+   */
   offDelay?: number;
-  // Where the tooltip is anchored (not to be confused with position)
+  /**
+   * Where the tooltip is anchored (not to be confused with position)
+   */
   location?: 'mouse' | 'element';
-  // The direction from the anchor that the tooltip opens up from
+  /**
+   * The direction from the anchor that the tooltip opens up from
+   */
   position?: 'auto' | 'top' | 'left' | 'bottom' | 'right' | 'topRight' | 'topLeft' | 'bottomRight' | 'bottomLeft';
-  // Additional classes added to the visible tooltip element.
+  /**
+   * Additional classes added to the visible tooltip element.
+   */
   cssClasses?: string;
 };
 
+/**
+ * The default tooltip options when not overridden.
+ */
 export const DEFAULT_OPTIONS: ITooltipOptions = {
   delay: 1000,
   offDelay: 1000,

@@ -50,22 +50,6 @@
                         </ul>
                     </li>
             
-                    <li class="chapter">
-                        <div class="simple menu-toggler" data-toggle="collapse"
-                                data-target="#xs-additional-pages"
-                            >
-                            <span class="fa fa-book"></span>
-                            <span>Additional documentation</span>
-                            <span class="fa fa-angle-down"></span>
-                        </div>
-                        <ul class="links collapse "
-                                id="xs-additional-pages"
-                            >
-                                <li class="link ">
-                                    <a href="../additional-documentation/a-title.html" >A TITLE</a>
-                                </li>
-                        </ul>
-                    </li>
             
                     <li class="chapter">
                         <a data-type="chapter-link" href="../modules.html" >
@@ -177,9 +161,6 @@
                         </ul>
                     </li>
             
-                    <li class="chapter">
-                        <a data-type="chapter-link" href="../routes.html" ><span class="fa fa-code-fork"></span>Routes</a>
-                    </li>
             
                     <li class="chapter">
                         <a data-type="chapter-link" href="../coverage.html" ><span class="fa fa-tasks"></span>Documentation coverage</a>
@@ -226,22 +207,6 @@
                                </ul>
                            </li>
                    
-                           <li class="chapter">
-                               <div class="simple menu-toggler" data-toggle="collapse"
-                                       data-target="#additional-pages"
-                   >
-                                   <span class="fa fa-book"></span>
-                                   <span>Additional documentation</span>
-                                   <span class="fa fa-angle-down"></span>
-                               </div>
-                               <ul class="links collapse "
-                                       id="additional-pages"
-                   >
-                                       <li class="link ">
-                                           <a href="../additional-documentation/a-title.html" >A TITLE</a>
-                                       </li>
-                               </ul>
-                           </li>
                    
                            <li class="chapter">
                                <a data-type="chapter-link" href="../modules.html" >
@@ -353,9 +318,6 @@
                                </ul>
                            </li>
                    
-                           <li class="chapter">
-                               <a data-type="chapter-link" href="../routes.html" ><span class="fa fa-code-fork"></span>Routes</a>
-                           </li>
                    
                            <li class="chapter">
                                <a data-type="chapter-link" href="../coverage.html" ><span class="fa fa-tasks"></span>Documentation coverage</a>
@@ -403,6 +365,13 @@
             <code>src/app/modules/d3-tooltip/d3-tooltip.service.ts</code>
         </p>
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>An interface for screen coordinates</p>
+
+            </p>
 
 
         <section>
@@ -461,7 +430,7 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <div class="io-line">Defined in <a href="" data-line="209" class="link-to-prism">src/app/modules/d3-tooltip/d3-tooltip.service.ts:209</a></div>
+                                            <div class="io-line">Defined in <a href="" data-line="231" class="link-to-prism">src/app/modules/d3-tooltip/d3-tooltip.service.ts:231</a></div>
                                         </td>
                                     </tr>
 
@@ -494,7 +463,7 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <div class="io-line">Defined in <a href="" data-line="208" class="link-to-prism">src/app/modules/d3-tooltip/d3-tooltip.service.ts:208</a></div>
+                                            <div class="io-line">Defined in <a href="" data-line="230" class="link-to-prism">src/app/modules/d3-tooltip/d3-tooltip.service.ts:230</a></div>
                                         </td>
                                     </tr>
 
@@ -516,6 +485,9 @@ import {
 } from &#x27;@angular/core&#x27;;
 import { D3TooltipComponent } from &#x27;./d3-tooltip.component&#x27;;
 
+/**
+ * The injectable class with methods that allow for d3 tooltip creation. Injectable as &#x60;d3TooltipService&#x60;.
+ */
 @Injectable()
 export class D3TooltipService {
 
@@ -664,6 +636,14 @@ export class D3TooltipService {
     };
   }
 
+  /**
+   * Displays the given component in a tooltip anchored 
+   * @param position The absolute coordinates of where the anchor for this tooltip is
+   * @param component The component to instantiate
+   * @param inputs The inputs to pass to the instantiated component
+   * @param outputs The output subscribe handlers to attach to outputs
+   * @param options Tooltip options object for further customization
+   */
   showTooltip(position: ITooltipPosition, component: any, inputs: any, outputs: any, options: ITooltipOptions): ComponentRef&lt;D3TooltipComponent&gt; {
     // credit: https://medium.com/@caroso1222/angular-pro-tip-how-to-dynamically-create-components-in-body-ba200cc289e6
     // 1. Create a component reference from the component 
@@ -692,6 +672,10 @@ export class D3TooltipService {
     return componentRef;
   }
 
+  /**
+   * Removes the given tooltip component reference.
+   * @param tooltipRef The component reference of the open tooltip to remove
+   */
   removeTooltip(tooltipRef: ComponentRef&lt;D3TooltipComponent&gt;) {
     tooltipRef.instance.isVisible &#x3D; false;
     setTimeout(() &#x3D;&gt; {
@@ -700,10 +684,14 @@ export class D3TooltipService {
     }, 1000);
   }
 
-  createFromTemplate(templateString: string) {
+  // createFromTemplate(templateString: string) {
 
-  }
+  // }
 
+  /**
+   * Given a component reference, returns the host DOM element.
+   * @param componentRef The component reference whose DOM element will be returned
+   */
   private getDomElementFromComponentRef(componentRef: ComponentRef&lt;any&gt;): HTMLElement {
     return (componentRef.hostView as EmbeddedViewRef&lt;any&gt;)
       .rootNodes[0] as HTMLElement;
@@ -711,24 +699,43 @@ export class D3TooltipService {
 
 }
 
+/**
+ * An interface for screen coordinates
+ */
 export interface ITooltipPosition {
   top: number;
   left: number;
 }
 
+/**
+ * The available tooltip customization options
+ */
 export interface ITooltipOptions {
-  // How long before tooltip appears
+  /**
+   * How long before tooltip appears
+   */
   delay?: number;
-  // How long after mouseout the tooltip disappears
+  /**
+   * How long after mouseout the tooltip disappears
+   */
   offDelay?: number;
-  // Where the tooltip is anchored (not to be confused with position)
+  /**
+   * Where the tooltip is anchored (not to be confused with position)
+   */
   location?: &#x27;mouse&#x27; | &#x27;element&#x27;;
-  // The direction from the anchor that the tooltip opens up from
+  /**
+   * The direction from the anchor that the tooltip opens up from
+   */
   position?: &#x27;auto&#x27; | &#x27;top&#x27; | &#x27;left&#x27; | &#x27;bottom&#x27; | &#x27;right&#x27; | &#x27;topRight&#x27; | &#x27;topLeft&#x27; | &#x27;bottomRight&#x27; | &#x27;bottomLeft&#x27;;
-  // Additional classes added to the visible tooltip element.
+  /**
+   * Additional classes added to the visible tooltip element.
+   */
   cssClasses?: string;
 };
 
+/**
+ * The default tooltip options when not overridden.
+ */
 export const DEFAULT_OPTIONS: ITooltipOptions &#x3D; {
   delay: 1000,
   offDelay: 1000,
