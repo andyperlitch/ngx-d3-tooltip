@@ -1,7 +1,7 @@
 {
   "name": "ngx-d3-tooltip",
   "description": "Add tooltips to your d3 visualizations using Angular Components.",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
