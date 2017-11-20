@@ -3,6 +3,14 @@
   "description": "Add tooltips to your d3 visualizations using Angular Components.",
   "version": "0.1.0",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/andyperlitch/ngx-d3-tooltip"
+  },
+  "author": {
+    "name": "Andy Perlitch",
+    "url": "http://andyperlitch.net"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
