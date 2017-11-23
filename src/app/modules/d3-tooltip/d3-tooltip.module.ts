@@ -4,6 +4,10 @@ import { D3TooltipComponent } from './d3-tooltip.component';
 import { D3TooltipService } from './d3-tooltip.service';
 import { D3TooltipHostDirective } from './d3-tooltip-host.directive';
 
+export { D3TooltipHostDirective } from './d3-tooltip-host.directive';
+export { D3TooltipComponent } from './d3-tooltip.component';
+export { D3TooltipService, ITooltipOptions, ITooltipPosition } from './d3-tooltip.service';
+
 @NgModule({
   imports: [
     CommonModule

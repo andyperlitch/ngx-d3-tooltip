@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnChanges, AfterViewInit, OnInit, ViewEncapsulation } from '@angular/core';
-import { D3TooltipService } from '../../modules/d3-tooltip/d3-tooltip.service';
+import { D3TooltipService } from '../../modules/d3-tooltip/d3-tooltip.module';
 import { SliceTooltipComponent } from '../slice-tooltip/slice-tooltip.component';
 import * as d3 from 'd3';
 
@@ -12,7 +12,7 @@ import * as d3 from 'd3';
 export class InteractivePieChartComponent implements OnChanges, OnInit {
 
   @Input()
-  data: IPieChartDatum[];
+  data: IPieChartDatum[] = [];
 
   @Input()
   radius = 130;

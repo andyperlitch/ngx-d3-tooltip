@@ -3,6 +3,7 @@
 
 module.exports = function (config) {
   config.set({
+    files: ['src/app/modules/d3-tooltip/**/*.spec.ts'],
     basePath: '',
     frameworks: ['jasmine', '@angular/cli'],
     plugins: [
