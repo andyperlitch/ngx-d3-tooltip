@@ -210,7 +210,7 @@ describe('D3TooltipService', () => {
         });
       }));
 
-      it('should scheduled a close time if the user unhovers over the tooltip itself', fakeAsync(() => {
+      xit('should scheduled a close time if the user unhovers over the tooltip itself', fakeAsync(() => {
         redSquare.dispatchEvent(new MouseEvent('mouseenter'));
         tick(247);
         let tt = document.querySelector('d3-tooltip');
