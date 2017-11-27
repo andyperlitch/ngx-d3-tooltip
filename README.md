@@ -1,5 +1,9 @@
 # ngx-d3-tooltip
 
+[![Build Status](https://travis-ci.org/andyperlitch/ngx-d3-tooltip.svg?branch=master)](https://travis-ci.org/andyperlitch/ngx-d3-tooltip)
+[![codecov](https://codecov.io/gh/andyperlitch/ngx-d3-tooltip/branch/master/graph/badge.svg)](https://codecov.io/gh/andyperlitch/ngx-d3-tooltip)
+
+
 Add tooltips to your d3 visualizations using Angular Components.
 
 ![gif of tooltip](https://raw.githubusercontent.com/andyperlitch/ngx-d3-tooltip/master/demo.gif)
@@ -31,7 +35,7 @@ D3.js is a great visualization library, but building dynamic tooltips is a bit c
 
 ## Usage
 
-The main idea is that the [`D3TooltipService.createFromComponent`](https://andyperlitch.github.io/ngx-d3-tooltip/injectables/D3TooltipService.html#createFromComponent) method returns a function which is then passed to `d3.Selection.call`:
+The main idea is that the [`D3TooltipService.createFromComponent`](https://andyperlitch.github.io/ngx-d3-tooltip/injectables/D3TooltipService.html#createFromComponent) method returns a function which is then passed to your `d3.Selection.call` :
 
 ```typescript
 let tooltip = d3TooltipService.createFromComponent(MyComponent, inputs, outputs, options);
@@ -139,9 +143,9 @@ Here is a more in-depth example:
 
 ## TODOs:
 
-- [ ] raw template support
-- [ ] position: auto support
 - [ ] tests
+- [ ] position: auto support
+- [ ] raw template support
 
 
 ## License

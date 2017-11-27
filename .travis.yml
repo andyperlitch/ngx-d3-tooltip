@@ -5,9 +5,12 @@ dist: trusty # needs Ubuntu Trusty
 sudo: false  # no need for virtualization.
 addons:
   chrome: stable # have Travis install chrome stable.
+install:
+  - codecov
 cache:
   directories:
     - node_modules
 script:
   - npm test
   - npm run build
+  - codecov
