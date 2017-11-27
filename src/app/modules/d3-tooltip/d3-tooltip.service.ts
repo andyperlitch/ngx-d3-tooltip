@@ -104,7 +104,7 @@ export class D3TooltipService {
           }
 
           // Clear any previous timer to open a popup and start a new one
-          if (openDelayTimeout) {
+          if (openDelayTimeout != null) {
             clearTimeout(openDelayTimeout);
           }
           openDelayTimeout = setTimeout(() => {
