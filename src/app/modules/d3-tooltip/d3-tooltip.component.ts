@@ -7,8 +7,8 @@ import { D3TooltipHostDirective } from './d3-tooltip-host.directive';
   templateUrl: './d3-tooltip.component.html',
   styleUrls: ['./d3-tooltip.component.css'],
   host: {
-    '[style.top]': 'cssTop',
-    '[style.left]': 'cssLeft'
+    '[style.top]': 'position.top + \'px\'',
+    '[style.left]': 'position.left + \'px\''
   },
   encapsulation: ViewEncapsulation.None
   
