@@ -137,6 +137,12 @@ Here is a more in-depth example:
   }
   ```
 
+## Running the Demo
+
+```bash
+npm start
+```
+
 ## Documentation
 
 [Documentation](https://andyperlitch.github.io/ngx-d3-tooltip/modules/D3TooltipModule.html)

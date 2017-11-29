@@ -120,7 +120,7 @@ var AppModule = (function () {
     function AppModule() {
     }
     AppModule = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["E" /* NgModule */])({
+        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["F" /* NgModule */])({
             declarations: [
                 __WEBPACK_IMPORTED_MODULE_3__app_component__["a" /* AppComponent */],
                 __WEBPACK_IMPORTED_MODULE_4__components_interactive_pie_chart_interactive_pie_chart_component__["a" /* InteractivePieChartComponent */],
@@ -302,15 +302,15 @@ var InteractivePieChartComponent = (function () {
             .attr('transform', "translate(" + outerWidth / 2 + ", " + outerHeight / 2 + ")");
     };
     __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["z" /* Input */])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Input */])(),
         __metadata("design:type", Array)
     ], InteractivePieChartComponent.prototype, "data", void 0);
     __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["z" /* Input */])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Input */])(),
         __metadata("design:type", Object)
     ], InteractivePieChartComponent.prototype, "radius", void 0);
     __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["z" /* Input */])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Input */])(),
         __metadata("design:type", Object)
     ], InteractivePieChartComponent.prototype, "margin", void 0);
     InteractivePieChartComponent = __decorate([
@@ -318,7 +318,7 @@ var InteractivePieChartComponent = (function () {
             selector: 'interactive-pie-chart',
             template: __webpack_require__("../../../../../src/app/components/interactive-pie-chart/interactive-pie-chart.component.html"),
             styles: [__webpack_require__("../../../../../src/app/components/interactive-pie-chart/interactive-pie-chart.component.css")],
-            encapsulation: __WEBPACK_IMPORTED_MODULE_0__angular_core__["_4" /* ViewEncapsulation */].None
+            encapsulation: __WEBPACK_IMPORTED_MODULE_0__angular_core__["_5" /* ViewEncapsulation */].None
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_core__["r" /* ElementRef */], __WEBPACK_IMPORTED_MODULE_1__modules_d3_tooltip_d3_tooltip_module__["b" /* D3TooltipService */]])
     ], InteractivePieChartComponent);
@@ -378,11 +378,11 @@ var SliceTooltipComponent = (function () {
         this.select.emit(this.slice);
     };
     __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["z" /* Input */])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Input */])(),
         __metadata("design:type", Object)
     ], SliceTooltipComponent.prototype, "slice", void 0);
     __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["K" /* Output */])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["L" /* Output */])(),
         __metadata("design:type", Object)
     ], SliceTooltipComponent.prototype, "select", void 0);
     SliceTooltipComponent = __decorate([
@@ -423,7 +423,7 @@ var D3TooltipHostDirective = (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["q" /* Directive */])({
             selector: '[d3TooltipHost]'
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_core__["_3" /* ViewContainerRef */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_core__["_4" /* ViewContainerRef */]])
     ], D3TooltipHostDirective);
     return D3TooltipHostDirective;
 }());
@@ -524,39 +524,45 @@ var D3TooltipComponent = (function () {
         }, 1);
     };
     __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["z" /* Input */])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Input */])(),
         __metadata("design:type", Object)
     ], D3TooltipComponent.prototype, "component", void 0);
     __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["z" /* Input */])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Input */])(),
         __metadata("design:type", Object)
     ], D3TooltipComponent.prototype, "position", void 0);
     __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["z" /* Input */])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Input */])(),
         __metadata("design:type", Object)
     ], D3TooltipComponent.prototype, "options", void 0);
     __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["z" /* Input */])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Input */])(),
         __metadata("design:type", Object)
     ], D3TooltipComponent.prototype, "inputs", void 0);
     __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["z" /* Input */])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Input */])(),
         __metadata("design:type", Object)
     ], D3TooltipComponent.prototype, "outputs", void 0);
     __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_2" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1__d3_tooltip_host_directive__["a" /* D3TooltipHostDirective */]),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_3" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1__d3_tooltip_host_directive__["a" /* D3TooltipHostDirective */]),
         __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1__d3_tooltip_host_directive__["a" /* D3TooltipHostDirective */])
     ], D3TooltipComponent.prototype, "componentHost", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* HostBinding */])('style.top'),
+        __metadata("design:type", Object),
+        __metadata("design:paramtypes", [])
+    ], D3TooltipComponent.prototype, "cssTop", null);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* HostBinding */])('style.left'),
+        __metadata("design:type", Object),
+        __metadata("design:paramtypes", [])
+    ], D3TooltipComponent.prototype, "cssLeft", null);
     D3TooltipComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'd3-tooltip',
             template: __webpack_require__("../../../../../src/app/modules/d3-tooltip/d3-tooltip.component.html"),
             styles: [__webpack_require__("../../../../../src/app/modules/d3-tooltip/d3-tooltip.component.css")],
-            host: {
-                '[style.top]': 'position.top + \'px\'',
-                '[style.left]': 'position.left + \'px\''
-            },
-            encapsulation: __WEBPACK_IMPORTED_MODULE_0__angular_core__["_4" /* ViewEncapsulation */].None
+            encapsulation: __WEBPACK_IMPORTED_MODULE_0__angular_core__["_5" /* ViewEncapsulation */].None
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* ComponentFactoryResolver */]])
     ], D3TooltipComponent);
@@ -598,7 +604,7 @@ var D3TooltipModule = (function () {
     function D3TooltipModule() {
     }
     D3TooltipModule = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* NgModule */])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* NgModule */])({
             imports: [
                 __WEBPACK_IMPORTED_MODULE_1__angular_common__["a" /* CommonModule */]
             ],
@@ -619,8 +625,8 @@ var D3TooltipModule = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return D3TooltipService; });
 /* unused harmony export DEFAULT_OPTIONS */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return D3TooltipService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_d3__ = __webpack_require__("../../../../d3/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__d3_tooltip_component__ = __webpack_require__("../../../../../src/app/modules/d3-tooltip/d3-tooltip.component.ts");
@@ -636,6 +642,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+/**
+ * The default tooltip options when not overridden.
+ */
+var DEFAULT_OPTIONS = {
+    delay: 1000,
+    offDelay: 1000,
+    location: 'mouse',
+    position: 'bottom',
+    cssClasses: ''
+};
 /**
  * The injectable class with methods that allow for d3 tooltip creation. Injectable as `d3TooltipService`.
  */
@@ -765,7 +781,7 @@ var D3TooltipService = (function () {
      */
     D3TooltipService.prototype.showTooltip = function (position, component, inputs, outputs, options) {
         // credit: https://medium.com/@caroso1222/angular-pro-tip-how-to-dynamically-create-components-in-body-ba200cc289e6
-        // 1. Create a component reference from the component 
+        // 1. Create a component reference from the component
         var componentRef = this.cfr
             .resolveComponentFactory(__WEBPACK_IMPORTED_MODULE_2__d3_tooltip_component__["a" /* D3TooltipComponent */])
             .create(this.injector);
@@ -808,25 +824,14 @@ var D3TooltipService = (function () {
             .rootNodes[0];
     };
     D3TooltipService = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["w" /* Injectable */])(),
+        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["x" /* Injectable */])(),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_core__["o" /* ComponentFactoryResolver */],
             __WEBPACK_IMPORTED_MODULE_1__angular_core__["f" /* ApplicationRef */],
-            __WEBPACK_IMPORTED_MODULE_1__angular_core__["y" /* Injector */]])
+            __WEBPACK_IMPORTED_MODULE_1__angular_core__["z" /* Injector */]])
     ], D3TooltipService);
     return D3TooltipService;
 }());
 
-;
-/**
- * The default tooltip options when not overridden.
- */
-var DEFAULT_OPTIONS = {
-    delay: 1000,
-    offDelay: 1000,
-    location: 'mouse',
-    position: 'bottom',
-    cssClasses: ''
-};
 
 
 /***/ }),
@@ -861,7 +866,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 if (__WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].production) {
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_7" /* enableProdMode */])();
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* enableProdMode */])();
 }
 Object(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__["a" /* platformBrowserDynamic */])().bootstrapModule(__WEBPACK_IMPORTED_MODULE_2__app_app_module__["a" /* AppModule */])
     .catch(function (err) { return console.log(err); });
