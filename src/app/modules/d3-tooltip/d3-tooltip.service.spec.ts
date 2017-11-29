@@ -21,7 +21,7 @@ let ins, outs;
 })
 class TestTooltipComponent {
   @Input()
-  title: string = 'foo';
+  title = 'foo';
   @Output()
   out: EventEmitter<string> = new EventEmitter<string>();
 }
@@ -33,7 +33,7 @@ class TestTooltipComponent {
 })
 class PieChartComponent implements OnInit {
   constructor(private el: ElementRef, private tipService: D3TooltipService) {}
-  ngOnInit(): void {    
+  ngOnInit(): void {
     d3.select(this.el.nativeElement)
       .append('svg')
       .selectAll('rect')
@@ -51,7 +51,7 @@ class PieChartComponent implements OnInit {
         ins,
         outs,
         ttOptions
-      ))
+      ));
   }
 }
 
@@ -85,7 +85,7 @@ describe('D3TooltipService', () => {
       return { title: color };
     };
     outs = () => {
-      return { out: outSpy }
+      return { out: outSpy };
     };
     testModule = TestBed.configureTestingModule({
       providers: [D3TooltipService],
@@ -100,7 +100,7 @@ describe('D3TooltipService', () => {
       de = fixture.debugElement;
       redSquare = (de.nativeElement as HTMLElement).querySelector('#red') as SVGRectElement;
     };
-    
+
   }));
 
   afterEach(() => {
@@ -119,7 +119,7 @@ describe('D3TooltipService', () => {
   describe('the hover behavior', () => {
 
     describe('when location is mouse', () => {
-      
+
       beforeEach(async(() => {
         setup();
       }));
@@ -164,7 +164,8 @@ describe('D3TooltipService', () => {
         expect(tt.style.top).toBe('10px');
       }));
 
-      describe('when there is subsequent mousemoves on the element after mouseenter and before mouseleave but before the tooltip opens', () => {
+      describe(`when there is subsequent mousemoves on the element after mouseenter
+                and before mouseleave but before the tooltip opens`, () => {
 
         it('should open from the last mousemove event', fakeAsync(() => {
           redSquare.dispatchEvent(new MouseEvent('mouseenter', {
@@ -181,7 +182,7 @@ describe('D3TooltipService', () => {
           let tt = document.querySelector('d3-tooltip') as HTMLElement;
           expect(tt.style.left).toBe('15px');
           expect(tt.style.top).toBe('16px');
-        }))
+        }));
 
       });
 
@@ -237,7 +238,7 @@ describe('D3TooltipService', () => {
     });
 
     describe('when location is element', () => {
-      
+
       beforeEach(async(() => {
         ttOptions.location = 'element';
         setup();
@@ -291,5 +292,5 @@ describe('D3TooltipService', () => {
     });
 
   });
-    
+
 });

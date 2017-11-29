@@ -80,7 +80,7 @@ describe('D3TooltipComponent', () => {
     let ttEl = de.query(By.css('.ngx-d3-tooltip'));
     expect(ttEl.classes).not.toContain('ngx-d3-tooltip_visible');
   });
-  
+
   it('should add the visibility class after a brief timeout', fakeAsync(() => {
     let ttEl = de.query(By.css('.ngx-d3-tooltip'));
     tick(1);

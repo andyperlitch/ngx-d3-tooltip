@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { IPieChartDatum } from '../interactive-pie-chart/interactive-pie-chart.component'
+import { IPieChartDatum } from '../interactive-pie-chart/interactive-pie-chart.component';
 
 @Component({
   selector: 'slice-tooltip',

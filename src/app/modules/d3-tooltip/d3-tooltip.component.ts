@@ -1,4 +1,13 @@
-import { ViewEncapsulation, ViewChild, Component, OnInit, Input, ComponentFactoryResolver, AfterViewInit } from '@angular/core';
+import {
+  ViewEncapsulation,
+  ViewChild,
+  Component,
+  OnInit,
+  Input,
+  ComponentFactoryResolver,
+  AfterViewInit,
+  HostBinding
+} from '@angular/core';
 import { ITooltipPosition, ITooltipOptions } from './d3-tooltip.service';
 import { D3TooltipHostDirective } from './d3-tooltip-host.directive';
 
@@ -6,12 +15,7 @@ import { D3TooltipHostDirective } from './d3-tooltip-host.directive';
   selector: 'd3-tooltip',
   templateUrl: './d3-tooltip.component.html',
   styleUrls: ['./d3-tooltip.component.css'],
-  host: {
-    '[style.top]': 'position.top + \'px\'',
-    '[style.left]': 'position.left + \'px\''
-  },
   encapsulation: ViewEncapsulation.None
-  
 })
 export class D3TooltipComponent implements OnInit {
 
@@ -33,7 +37,7 @@ export class D3TooltipComponent implements OnInit {
   /**
    * Controls a class which sets the element opacity to 1 when present.
    */
-  isVisible: boolean = false;
+  isVisible = false;
 
   /**
    * Element where the component gets inserted
@@ -42,10 +46,12 @@ export class D3TooltipComponent implements OnInit {
   componentHost: D3TooltipHostDirective;
 
 
+  @HostBinding('style.top')
   get cssTop() {
     return `${this.position.top}px`;
   }
-  
+
+  @HostBinding('style.left')
   get cssLeft() {
     return `${this.position.left}px`;
   }

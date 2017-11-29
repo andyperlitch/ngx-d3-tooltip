@@ -10,6 +10,51 @@ import {
 import { D3TooltipComponent } from './d3-tooltip.component';
 
 /**
+ * An interface for screen coordinates
+ */
+export interface ITooltipPosition {
+  top: number;
+  left: number;
+}
+
+/**
+ * The available tooltip customization options
+ */
+export interface ITooltipOptions {
+  /**
+   * How long before tooltip appears
+   */
+  delay?: number;
+  /**
+   * How long after mouseout the tooltip disappears
+   */
+  offDelay?: number;
+  /**
+   * Where the tooltip is anchored (not to be confused with position)
+   */
+  location?: 'mouse' | 'element';
+  /**
+   * The direction from the anchor that the tooltip opens up from
+   */
+  position?: 'auto' | 'top' | 'left' | 'bottom' | 'right' | 'topRight' | 'topLeft' | 'bottomRight' | 'bottomLeft';
+  /**
+   * Additional classes added to the visible tooltip element.
+   */
+  cssClasses?: string;
+}
+
+/**
+ * The default tooltip options when not overridden.
+ */
+export const DEFAULT_OPTIONS: ITooltipOptions = {
+  delay: 1000,
+  offDelay: 1000,
+  location: 'mouse',
+  position: 'bottom',
+  cssClasses: ''
+};
+
+/**
  * The injectable class with methods that allow for d3 tooltip creation. Injectable as `d3TooltipService`.
  */
 @Injectable()
@@ -25,7 +70,7 @@ export class D3TooltipService {
    * This method returns a function that can be called with d3.Selection.call(). It adds
    * a tooltip/popover to the selection's elements which instantiates and inserts a component
    * specified by the first parameter.
-   * 
+   *
    * @param component The component class to insert into the tooltip
    * @param inputsFactory A function which returns an object for input values to the component
    * @param options Options for the returned tooltip function
@@ -47,10 +92,10 @@ export class D3TooltipService {
       // component reference to the opened tooltip if there is one
       let openTooltipRef: ComponentRef<D3TooltipComponent>;
       let elementThatTriggeredTooltip: Element;
-      
+
       // object which stores the coordinates to anchor the tooltip
       let position: ITooltipPosition;
-      
+
       // the intermittent event handler for window mousemoves,
       // added when options.location is 'mouse'
       let mousemove = (event: MouseEvent) => {
@@ -81,18 +126,18 @@ export class D3TooltipService {
             top: 0,
             left: 0
           };
-          
+
           // Get the anchor point in the document:
 
           // 'mouse'
           if (options.location === 'mouse') {
-            
+
             // set initial coords from mouseenter event
             mousemove(d3.event);
 
             // update coords to open with as mouse moves within element
             window.addEventListener('mousemove', mousemove);
-          
+
             // element
           } else if (options.location === 'element') {
 
@@ -108,7 +153,7 @@ export class D3TooltipService {
             clearTimeout(openDelayTimeout);
           }
           openDelayTimeout = setTimeout(() => {
-            
+
             // Remove the mousemove listener
             window.removeEventListener('mousemove', mousemove);
 
@@ -116,7 +161,7 @@ export class D3TooltipService {
             if (openTooltipRef) {
               d3TooltipService.removeTooltip(openTooltipRef);
             }
-            
+
             // Show the tooltip
             openTooltipRef = d3TooltipService.showTooltip(position, component, inputsFactory(d), outputsFactory(), options);
 
@@ -155,22 +200,28 @@ export class D3TooltipService {
               elementThatTriggeredTooltip = null;
             }, options.offDelay);
           }
-          
+
         });
     };
   }
 
   /**
-   * Displays the given component in a tooltip anchored 
+   * Displays the given component in a tooltip anchored
    * @param position The absolute coordinates of where the anchor for this tooltip is
    * @param component The component to instantiate
    * @param inputs The inputs to pass to the instantiated component
    * @param outputs The output subscribe handlers to attach to outputs
    * @param options Tooltip options object for further customization
    */
-  showTooltip(position: ITooltipPosition, component: any, inputs: any, outputs: any, options: ITooltipOptions): ComponentRef<D3TooltipComponent> {
+  showTooltip(
+    position: ITooltipPosition,
+    component: any,
+    inputs: any,
+    outputs: any,
+    options: ITooltipOptions
+  ): ComponentRef<D3TooltipComponent> {
     // credit: https://medium.com/@caroso1222/angular-pro-tip-how-to-dynamically-create-components-in-body-ba200cc289e6
-    // 1. Create a component reference from the component 
+    // 1. Create a component reference from the component
     const componentRef = this.cfr
       .resolveComponentFactory(D3TooltipComponent)
       .create(this.injector);
@@ -222,48 +273,3 @@ export class D3TooltipService {
   }
 
 }
-
-/**
- * An interface for screen coordinates
- */
-export interface ITooltipPosition {
-  top: number;
-  left: number;
-}
-
-/**
- * The available tooltip customization options
- */
-export interface ITooltipOptions {
-  /**
-   * How long before tooltip appears
-   */
-  delay?: number;
-  /**
-   * How long after mouseout the tooltip disappears
-   */
-  offDelay?: number;
-  /**
-   * Where the tooltip is anchored (not to be confused with position)
-   */
-  location?: 'mouse' | 'element';
-  /**
-   * The direction from the anchor that the tooltip opens up from
-   */
-  position?: 'auto' | 'top' | 'left' | 'bottom' | 'right' | 'topRight' | 'topLeft' | 'bottomRight' | 'bottomLeft';
-  /**
-   * Additional classes added to the visible tooltip element.
-   */
-  cssClasses?: string;
-};
-
-/**
- * The default tooltip options when not overridden.
- */
-export const DEFAULT_OPTIONS: ITooltipOptions = {
-  delay: 1000,
-  offDelay: 1000,
-  location: 'mouse',
-  position: 'bottom',
-  cssClasses: ''
-};

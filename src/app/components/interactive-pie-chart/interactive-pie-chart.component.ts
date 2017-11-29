@@ -29,7 +29,7 @@ export class InteractivePieChartComponent implements OnChanges, OnInit {
   private sliceTooltip: any;
 
   constructor(private el: ElementRef, tipService: D3TooltipService) {
-    
+
     // Create the arc function
     this.arc = d3.arc<InteractivePieChartComponent, IPieChartDatum>()
       .cornerRadius(5)
@@ -46,7 +46,7 @@ export class InteractivePieChartComponent implements OnChanges, OnInit {
       .outerRadius(this.radius + 20)
       .startAngle(d => d.startAngle)
       .endAngle(d => d.endAngle);
-    
+
 
     this.sliceTooltip = tipService.createFromComponent(
       SliceTooltipComponent,
@@ -56,7 +56,7 @@ export class InteractivePieChartComponent implements OnChanges, OnInit {
       () => {
         return { select: (d: IPieChartDatum) => {
           this.selected = d;
-        }}
+        }};
       },
       {
         position: 'bottomRight'
@@ -110,13 +110,13 @@ export class InteractivePieChartComponent implements OnChanges, OnInit {
     // BIND/JOIN
     let slice = this.cnv.selectAll('path.slice')
       .data(data, (d: IPieChartDatum) => d.id);
-    
+
     // EXIT
     slice.exit()
       .transition()
       .style('opacity', 0)
       .remove();
-    
+
     // ENTER
     let newSlice = slice.enter()
       .append('path')
@@ -130,7 +130,7 @@ export class InteractivePieChartComponent implements OnChanges, OnInit {
     slice = newSlice.merge(slice);
 
     // ENTER+UPDATE
-    
+
 
   }
 
