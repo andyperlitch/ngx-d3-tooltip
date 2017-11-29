@@ -3509,7 +3509,7 @@ function inferColumns(rows) {
       if (convert) return convert(row, i - 1);
       columns = row, convert = f ? customConverter(row, f) : objectConverter(row);
     });
-    rows.columns = columns || [];
+    rows.columns = columns;
     return rows;
   }
 
@@ -8014,15 +8014,7 @@ function multiplex(streams) {
   };
 
   albersUsa.fitSize = function(size, object) {
-    return Object(__WEBPACK_IMPORTED_MODULE_3__fit__["c" /* fitSize */])(albersUsa, size, object);
-  };
-
-  albersUsa.fitWidth = function(width, object) {
-    return Object(__WEBPACK_IMPORTED_MODULE_3__fit__["d" /* fitWidth */])(albersUsa, width, object);
-  };
-
-  albersUsa.fitHeight = function(height, object) {
-    return Object(__WEBPACK_IMPORTED_MODULE_3__fit__["b" /* fitHeight */])(albersUsa, height, object);
+    return Object(__WEBPACK_IMPORTED_MODULE_3__fit__["b" /* fitSize */])(albersUsa, size, object);
   };
 
   function reset() {
@@ -8339,57 +8331,39 @@ equirectangularRaw.invert = equirectangularRaw;
 
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = fitExtent;
-/* harmony export (immutable) */ __webpack_exports__["c"] = fitSize;
-/* harmony export (immutable) */ __webpack_exports__["d"] = fitWidth;
-/* harmony export (immutable) */ __webpack_exports__["b"] = fitHeight;
+/* harmony export (immutable) */ __webpack_exports__["b"] = fitSize;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__stream__ = __webpack_require__("../../../../d3-geo/src/stream.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__path_bounds__ = __webpack_require__("../../../../d3-geo/src/path/bounds.js");
 
 
 
-function fit(projection, fitBounds, object) {
-  var clip = projection.clipExtent && projection.clipExtent();
-  projection.scale(150).translate([0, 0]);
-  if (clip != null) projection.clipExtent(null);
-  Object(__WEBPACK_IMPORTED_MODULE_0__stream__["a" /* default */])(object, projection.stream(__WEBPACK_IMPORTED_MODULE_1__path_bounds__["a" /* default */]));
-  fitBounds(__WEBPACK_IMPORTED_MODULE_1__path_bounds__["a" /* default */].result());
-  if (clip != null) projection.clipExtent(clip);
-  return projection;
-}
-
 function fitExtent(projection, extent, object) {
-  return fit(projection, function(b) {
-    var w = extent[1][0] - extent[0][0],
-        h = extent[1][1] - extent[0][1],
-        k = Math.min(w / (b[1][0] - b[0][0]), h / (b[1][1] - b[0][1])),
-        x = +extent[0][0] + (w - k * (b[1][0] + b[0][0])) / 2,
-        y = +extent[0][1] + (h - k * (b[1][1] + b[0][1])) / 2;
-    projection.scale(150 * k).translate([x, y]);
-  }, object);
+  var w = extent[1][0] - extent[0][0],
+      h = extent[1][1] - extent[0][1],
+      clip = projection.clipExtent && projection.clipExtent();
+
+  projection
+      .scale(150)
+      .translate([0, 0]);
+
+  if (clip != null) projection.clipExtent(null);
+
+  Object(__WEBPACK_IMPORTED_MODULE_0__stream__["a" /* default */])(object, projection.stream(__WEBPACK_IMPORTED_MODULE_1__path_bounds__["a" /* default */]));
+
+  var b = __WEBPACK_IMPORTED_MODULE_1__path_bounds__["a" /* default */].result(),
+      k = Math.min(w / (b[1][0] - b[0][0]), h / (b[1][1] - b[0][1])),
+      x = +extent[0][0] + (w - k * (b[1][0] + b[0][0])) / 2,
+      y = +extent[0][1] + (h - k * (b[1][1] + b[0][1])) / 2;
+
+  if (clip != null) projection.clipExtent(clip);
+
+  return projection
+      .scale(k * 150)
+      .translate([x, y]);
 }
 
 function fitSize(projection, size, object) {
   return fitExtent(projection, [[0, 0], size], object);
-}
-
-function fitWidth(projection, width, object) {
-  return fit(projection, function(b) {
-    var w = +width,
-        k = w / (b[1][0] - b[0][0]),
-        x = (w - k * (b[1][0] + b[0][0])) / 2,
-        y = -k * b[0][1];
-    projection.scale(150 * k).translate([x, y]);
-  }, object);
-}
-
-function fitHeight(projection, height, object) {
-  return fit(projection, function(b) {
-    var h = +height,
-        k = h / (b[1][1] - b[0][1]),
-        x = -k * b[0][0],
-        y = (h - k * (b[1][1] + b[0][1])) / 2;
-    projection.scale(150 * k).translate([x, y]);
-  }, object);
 }
 
 
@@ -8483,13 +8457,7 @@ function scaleTranslate(kx, ky, tx, ty) {
       return Object(__WEBPACK_IMPORTED_MODULE_3__fit__["a" /* fitExtent */])(projection, extent, object);
     },
     fitSize: function(size, object) {
-      return Object(__WEBPACK_IMPORTED_MODULE_3__fit__["c" /* fitSize */])(projection, size, object);
-    },
-    fitWidth: function(width, object) {
-      return Object(__WEBPACK_IMPORTED_MODULE_3__fit__["d" /* fitWidth */])(projection, width, object);
-    },
-    fitHeight: function(height, object) {
-      return Object(__WEBPACK_IMPORTED_MODULE_3__fit__["b" /* fitHeight */])(projection, height, object);
+      return Object(__WEBPACK_IMPORTED_MODULE_3__fit__["b" /* fitSize */])(projection, size, object);
     }
   };
 });
@@ -8614,15 +8582,7 @@ function projectionMutator(projectAt) {
   };
 
   projection.fitSize = function(size, object) {
-    return Object(__WEBPACK_IMPORTED_MODULE_8__fit__["c" /* fitSize */])(projection, size, object);
-  };
-
-  projection.fitWidth = function(width, object) {
-    return Object(__WEBPACK_IMPORTED_MODULE_8__fit__["d" /* fitWidth */])(projection, width, object);
-  };
-
-  projection.fitHeight = function(height, object) {
-    return Object(__WEBPACK_IMPORTED_MODULE_8__fit__["b" /* fitHeight */])(projection, height, object);
+    return Object(__WEBPACK_IMPORTED_MODULE_8__fit__["b" /* fitSize */])(projection, size, object);
   };
 
   function recenter() {
@@ -10844,7 +10804,7 @@ function squarifyRatio(ratio, parent, x0, y0, x1, y1) {
 /* harmony default export */ __webpack_exports__["a"] = (function(a, b) {
   var nb = b ? b.length : 0,
       na = a ? Math.min(nb, a.length) : 0,
-      x = new Array(na),
+      x = new Array(nb),
       c = new Array(nb),
       i;
 
@@ -14381,7 +14341,7 @@ function calendar(year, month, week, day, hour, minute, second, millisecond, for
         step = i[1];
         interval = i[0];
       } else {
-        step = Math.max(Object(__WEBPACK_IMPORTED_MODULE_0_d3_array__["h" /* tickStep */])(start, stop, interval), 1);
+        step = Object(__WEBPACK_IMPORTED_MODULE_0_d3_array__["h" /* tickStep */])(start, stop, interval);
         interval = millisecond;
       }
     }
@@ -14428,7 +14388,7 @@ function calendar(year, month, week, day, hour, minute, second, millisecond, for
 }
 
 /* unused harmony default export */ var _unused_webpack_default_export = (function() {
-  return calendar(__WEBPACK_IMPORTED_MODULE_2_d3_time__["k" /* timeYear */], __WEBPACK_IMPORTED_MODULE_2_d3_time__["f" /* timeMonth */], __WEBPACK_IMPORTED_MODULE_2_d3_time__["j" /* timeWeek */], __WEBPACK_IMPORTED_MODULE_2_d3_time__["a" /* timeDay */], __WEBPACK_IMPORTED_MODULE_2_d3_time__["b" /* timeHour */], __WEBPACK_IMPORTED_MODULE_2_d3_time__["d" /* timeMinute */], __WEBPACK_IMPORTED_MODULE_2_d3_time__["g" /* timeSecond */], __WEBPACK_IMPORTED_MODULE_2_d3_time__["c" /* timeMillisecond */], __WEBPACK_IMPORTED_MODULE_3_d3_time_format__["a" /* timeFormat */]).domain([new Date(2000, 0, 1), new Date(2000, 0, 2)]);
+  return calendar(__WEBPACK_IMPORTED_MODULE_2_d3_time__["j" /* timeYear */], __WEBPACK_IMPORTED_MODULE_2_d3_time__["f" /* timeMonth */], __WEBPACK_IMPORTED_MODULE_2_d3_time__["i" /* timeWeek */], __WEBPACK_IMPORTED_MODULE_2_d3_time__["a" /* timeDay */], __WEBPACK_IMPORTED_MODULE_2_d3_time__["b" /* timeHour */], __WEBPACK_IMPORTED_MODULE_2_d3_time__["d" /* timeMinute */], __WEBPACK_IMPORTED_MODULE_2_d3_time__["g" /* timeSecond */], __WEBPACK_IMPORTED_MODULE_2_d3_time__["c" /* timeMillisecond */], __WEBPACK_IMPORTED_MODULE_3_d3_time_format__["a" /* timeFormat */]).domain([new Date(2000, 0, 1), new Date(2000, 0, 2)]);
 });
 
 
@@ -14446,7 +14406,7 @@ function calendar(year, month, week, day, hour, minute, second, millisecond, for
 
 
 /* unused harmony default export */ var _unused_webpack_default_export = (function() {
-  return Object(__WEBPACK_IMPORTED_MODULE_0__time__["a" /* calendar */])(__WEBPACK_IMPORTED_MODULE_2_d3_time__["v" /* utcYear */], __WEBPACK_IMPORTED_MODULE_2_d3_time__["q" /* utcMonth */], __WEBPACK_IMPORTED_MODULE_2_d3_time__["u" /* utcWeek */], __WEBPACK_IMPORTED_MODULE_2_d3_time__["l" /* utcDay */], __WEBPACK_IMPORTED_MODULE_2_d3_time__["m" /* utcHour */], __WEBPACK_IMPORTED_MODULE_2_d3_time__["o" /* utcMinute */], __WEBPACK_IMPORTED_MODULE_2_d3_time__["r" /* utcSecond */], __WEBPACK_IMPORTED_MODULE_2_d3_time__["n" /* utcMillisecond */], __WEBPACK_IMPORTED_MODULE_1_d3_time_format__["b" /* utcFormat */]).domain([Date.UTC(2000, 0, 1), Date.UTC(2000, 0, 2)]);
+  return Object(__WEBPACK_IMPORTED_MODULE_0__time__["a" /* calendar */])(__WEBPACK_IMPORTED_MODULE_2_d3_time__["t" /* utcYear */], __WEBPACK_IMPORTED_MODULE_2_d3_time__["p" /* utcMonth */], __WEBPACK_IMPORTED_MODULE_2_d3_time__["s" /* utcWeek */], __WEBPACK_IMPORTED_MODULE_2_d3_time__["k" /* utcDay */], __WEBPACK_IMPORTED_MODULE_2_d3_time__["l" /* utcHour */], __WEBPACK_IMPORTED_MODULE_2_d3_time__["n" /* utcMinute */], __WEBPACK_IMPORTED_MODULE_2_d3_time__["q" /* utcSecond */], __WEBPACK_IMPORTED_MODULE_2_d3_time__["m" /* utcMillisecond */], __WEBPACK_IMPORTED_MODULE_1_d3_time_format__["b" /* utcFormat */]).domain([Date.UTC(2000, 0, 1), Date.UTC(2000, 0, 2)]);
 });
 
 
@@ -14496,30 +14456,27 @@ var plasma = ramp(Object(__WEBPACK_IMPORTED_MODULE_0__colors__["a" /* default */
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_4__src_namespace__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__src_namespaces__ = __webpack_require__("../../../../d3-selection/src/namespaces.js");
 /* unused harmony reexport namespaces */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__src_point__ = __webpack_require__("../../../../d3-selection/src/point.js");
-/* unused harmony reexport clientPoint */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__src_select__ = __webpack_require__("../../../../d3-selection/src/select.js");
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return __WEBPACK_IMPORTED_MODULE_7__src_select__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__src_selectAll__ = __webpack_require__("../../../../d3-selection/src/selectAll.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__src_select__ = __webpack_require__("../../../../d3-selection/src/select.js");
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return __WEBPACK_IMPORTED_MODULE_6__src_select__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__src_selectAll__ = __webpack_require__("../../../../d3-selection/src/selectAll.js");
 /* unused harmony reexport selectAll */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__src_selection_index__ = __webpack_require__("../../../../d3-selection/src/selection/index.js");
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return __WEBPACK_IMPORTED_MODULE_9__src_selection_index__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__src_selector__ = __webpack_require__("../../../../d3-selection/src/selector.js");
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return __WEBPACK_IMPORTED_MODULE_10__src_selector__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__src_selectorAll__ = __webpack_require__("../../../../d3-selection/src/selectorAll.js");
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return __WEBPACK_IMPORTED_MODULE_11__src_selectorAll__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__src_selection_style__ = __webpack_require__("../../../../d3-selection/src/selection/style.js");
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return __WEBPACK_IMPORTED_MODULE_12__src_selection_style__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__src_touch__ = __webpack_require__("../../../../d3-selection/src/touch.js");
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return __WEBPACK_IMPORTED_MODULE_13__src_touch__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__src_touches__ = __webpack_require__("../../../../d3-selection/src/touches.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__src_selection_index__ = __webpack_require__("../../../../d3-selection/src/selection/index.js");
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return __WEBPACK_IMPORTED_MODULE_8__src_selection_index__["b"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__src_selector__ = __webpack_require__("../../../../d3-selection/src/selector.js");
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return __WEBPACK_IMPORTED_MODULE_9__src_selector__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__src_selectorAll__ = __webpack_require__("../../../../d3-selection/src/selectorAll.js");
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return __WEBPACK_IMPORTED_MODULE_10__src_selectorAll__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__src_selection_style__ = __webpack_require__("../../../../d3-selection/src/selection/style.js");
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return __WEBPACK_IMPORTED_MODULE_11__src_selection_style__["b"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__src_touch__ = __webpack_require__("../../../../d3-selection/src/touch.js");
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return __WEBPACK_IMPORTED_MODULE_12__src_touch__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__src_touches__ = __webpack_require__("../../../../d3-selection/src/touches.js");
 /* unused harmony reexport touches */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__src_window__ = __webpack_require__("../../../../d3-selection/src/window.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__src_window__ = __webpack_require__("../../../../d3-selection/src/window.js");
 /* unused harmony reexport window */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__src_selection_on__ = __webpack_require__("../../../../d3-selection/src/selection/on.js");
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_16__src_selection_on__["c"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_16__src_selection_on__["a"]; });
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__src_selection_on__ = __webpack_require__("../../../../d3-selection/src/selection/on.js");
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_15__src_selection_on__["c"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_15__src_selection_on__["a"]; });
 
 
 
@@ -18706,7 +18663,6 @@ function formatLocale(locale) {
     "c": null,
     "d": formatDayOfMonth,
     "e": formatDayOfMonth,
-    "f": formatMicroseconds,
     "H": formatHour24,
     "I": formatHour12,
     "j": formatDayOfYear,
@@ -18714,13 +18670,9 @@ function formatLocale(locale) {
     "m": formatMonthNumber,
     "M": formatMinutes,
     "p": formatPeriod,
-    "Q": formatUnixTimestamp,
-    "s": formatUnixTimestampSeconds,
     "S": formatSeconds,
-    "u": formatWeekdayNumberMonday,
     "U": formatWeekNumberSunday,
-    "V": formatWeekNumberISO,
-    "w": formatWeekdayNumberSunday,
+    "w": formatWeekdayNumber,
     "W": formatWeekNumberMonday,
     "x": null,
     "X": null,
@@ -18738,7 +18690,6 @@ function formatLocale(locale) {
     "c": null,
     "d": formatUTCDayOfMonth,
     "e": formatUTCDayOfMonth,
-    "f": formatUTCMicroseconds,
     "H": formatUTCHour24,
     "I": formatUTCHour12,
     "j": formatUTCDayOfYear,
@@ -18746,13 +18697,9 @@ function formatLocale(locale) {
     "m": formatUTCMonthNumber,
     "M": formatUTCMinutes,
     "p": formatUTCPeriod,
-    "Q": formatUnixTimestamp,
-    "s": formatUnixTimestampSeconds,
     "S": formatUTCSeconds,
-    "u": formatUTCWeekdayNumberMonday,
     "U": formatUTCWeekNumberSunday,
-    "V": formatUTCWeekNumberISO,
-    "w": formatUTCWeekdayNumberSunday,
+    "w": formatUTCWeekdayNumber,
     "W": formatUTCWeekNumberMonday,
     "x": null,
     "X": null,
@@ -18770,7 +18717,6 @@ function formatLocale(locale) {
     "c": parseLocaleDateTime,
     "d": parseDayOfMonth,
     "e": parseDayOfMonth,
-    "f": parseMicroseconds,
     "H": parseHour24,
     "I": parseHour24,
     "j": parseDayOfYear,
@@ -18778,13 +18724,9 @@ function formatLocale(locale) {
     "m": parseMonthNumber,
     "M": parseMinutes,
     "p": parsePeriod,
-    "Q": parseUnixTimestamp,
-    "s": parseUnixTimestampSeconds,
     "S": parseSeconds,
-    "u": parseWeekdayNumberMonday,
     "U": parseWeekNumberSunday,
-    "V": parseWeekNumberISO,
-    "w": parseWeekdayNumberSunday,
+    "w": parseWeekdayNumber,
     "W": parseWeekNumberMonday,
     "x": parseLocaleDate,
     "X": parseLocaleTime,
@@ -18833,38 +18775,16 @@ function formatLocale(locale) {
   function newParse(specifier, newDate) {
     return function(string) {
       var d = newYear(1900),
-          i = parseSpecifier(d, specifier, string += "", 0),
-          week, day;
+          i = parseSpecifier(d, specifier, string += "", 0);
       if (i != string.length) return null;
-
-      // If a UNIX timestamp is specified, return it.
-      if ("Q" in d) return new Date(d.Q);
 
       // The am-pm flag is 0 for AM, and 1 for PM.
       if ("p" in d) d.H = d.H % 12 + d.p * 12;
 
       // Convert day-of-week and week-of-year to day-of-year.
-      if ("V" in d) {
-        if (d.V < 1 || d.V > 53) return null;
-        if (!("w" in d)) d.w = 1;
-        if ("Z" in d) {
-          week = utcDate(newYear(d.y)), day = week.getUTCDay();
-          week = day > 4 || day === 0 ? __WEBPACK_IMPORTED_MODULE_0_d3_time__["p" /* utcMonday */].ceil(week) : Object(__WEBPACK_IMPORTED_MODULE_0_d3_time__["p" /* utcMonday */])(week);
-          week = __WEBPACK_IMPORTED_MODULE_0_d3_time__["l" /* utcDay */].offset(week, (d.V - 1) * 7);
-          d.y = week.getUTCFullYear();
-          d.m = week.getUTCMonth();
-          d.d = week.getUTCDate() + (d.w + 6) % 7;
-        } else {
-          week = newDate(newYear(d.y)), day = week.getDay();
-          week = day > 4 || day === 0 ? __WEBPACK_IMPORTED_MODULE_0_d3_time__["e" /* timeMonday */].ceil(week) : Object(__WEBPACK_IMPORTED_MODULE_0_d3_time__["e" /* timeMonday */])(week);
-          week = __WEBPACK_IMPORTED_MODULE_0_d3_time__["a" /* timeDay */].offset(week, (d.V - 1) * 7);
-          d.y = week.getFullYear();
-          d.m = week.getMonth();
-          d.d = week.getDate() + (d.w + 6) % 7;
-        }
-      } else if ("W" in d || "U" in d) {
-        if (!("w" in d)) d.w = "u" in d ? d.u % 7 : "W" in d ? 1 : 0;
-        day = "Z" in d ? utcDate(newYear(d.y)).getUTCDay() : newDate(newYear(d.y)).getDay();
+      if ("W" in d || "U" in d) {
+        if (!("w" in d)) d.w = "W" in d ? 1 : 0;
+        var day = "Z" in d ? utcDate(newYear(d.y)).getUTCDay() : newDate(newYear(d.y)).getDay();
         d.m = 0;
         d.d = "W" in d ? (d.w + 6) % 7 + d.W * 7 - (day + 5) % 7 : d.w + d.U * 7 - (day + 6) % 7;
       }
@@ -19008,7 +18928,7 @@ function formatLocale(locale) {
 var pads = {"-": "", "_": " ", "0": "0"},
     numberRe = /^\s*\d+/, // note: ignores next directive
     percentRe = /^%/,
-    requoteRe = /[\\^$*+?|[\]().{}]/g;
+    requoteRe = /[\\\^\$\*\+\?\|\[\]\(\)\.\{\}]/g;
 
 function pad(value, fill, width) {
   var sign = value < 0 ? "-" : "",
@@ -19031,28 +18951,18 @@ function formatLookup(names) {
   return map;
 }
 
-function parseWeekdayNumberSunday(d, string, i) {
+function parseWeekdayNumber(d, string, i) {
   var n = numberRe.exec(string.slice(i, i + 1));
   return n ? (d.w = +n[0], i + n[0].length) : -1;
 }
 
-function parseWeekdayNumberMonday(d, string, i) {
-  var n = numberRe.exec(string.slice(i, i + 1));
-  return n ? (d.u = +n[0], i + n[0].length) : -1;
-}
-
 function parseWeekNumberSunday(d, string, i) {
-  var n = numberRe.exec(string.slice(i, i + 2));
+  var n = numberRe.exec(string.slice(i));
   return n ? (d.U = +n[0], i + n[0].length) : -1;
 }
 
-function parseWeekNumberISO(d, string, i) {
-  var n = numberRe.exec(string.slice(i, i + 2));
-  return n ? (d.V = +n[0], i + n[0].length) : -1;
-}
-
 function parseWeekNumberMonday(d, string, i) {
-  var n = numberRe.exec(string.slice(i, i + 2));
+  var n = numberRe.exec(string.slice(i));
   return n ? (d.W = +n[0], i + n[0].length) : -1;
 }
 
@@ -19067,7 +18977,7 @@ function parseYear(d, string, i) {
 }
 
 function parseZone(d, string, i) {
-  var n = /^(Z)|([+-]\d\d)(?::?(\d\d))?/.exec(string.slice(i, i + 6));
+  var n = /^(Z)|([+-]\d\d)(?:\:?(\d\d))?/.exec(string.slice(i, i + 6));
   return n ? (d.Z = n[1] ? 0 : -(n[2] + (n[3] || "00")), i + n[0].length) : -1;
 }
 
@@ -19106,24 +19016,9 @@ function parseMilliseconds(d, string, i) {
   return n ? (d.L = +n[0], i + n[0].length) : -1;
 }
 
-function parseMicroseconds(d, string, i) {
-  var n = numberRe.exec(string.slice(i, i + 6));
-  return n ? (d.L = Math.floor(n[0] / 1000), i + n[0].length) : -1;
-}
-
 function parseLiteralPercent(d, string, i) {
   var n = percentRe.exec(string.slice(i, i + 1));
   return n ? i + n[0].length : -1;
-}
-
-function parseUnixTimestamp(d, string, i) {
-  var n = numberRe.exec(string.slice(i));
-  return n ? (d.Q = +n[0], i + n[0].length) : -1;
-}
-
-function parseUnixTimestampSeconds(d, string, i) {
-  var n = numberRe.exec(string.slice(i));
-  return n ? (d.Q = (+n[0]) * 1000, i + n[0].length) : -1;
 }
 
 function formatDayOfMonth(d, p) {
@@ -19139,15 +19034,11 @@ function formatHour12(d, p) {
 }
 
 function formatDayOfYear(d, p) {
-  return pad(1 + __WEBPACK_IMPORTED_MODULE_0_d3_time__["a" /* timeDay */].count(Object(__WEBPACK_IMPORTED_MODULE_0_d3_time__["k" /* timeYear */])(d), d), p, 3);
+  return pad(1 + __WEBPACK_IMPORTED_MODULE_0_d3_time__["a" /* timeDay */].count(Object(__WEBPACK_IMPORTED_MODULE_0_d3_time__["j" /* timeYear */])(d), d), p, 3);
 }
 
 function formatMilliseconds(d, p) {
   return pad(d.getMilliseconds(), p, 3);
-}
-
-function formatMicroseconds(d, p) {
-  return formatMilliseconds(d, p) + "000";
 }
 
 function formatMonthNumber(d, p) {
@@ -19162,27 +19053,16 @@ function formatSeconds(d, p) {
   return pad(d.getSeconds(), p, 2);
 }
 
-function formatWeekdayNumberMonday(d) {
-  var day = d.getDay();
-  return day === 0 ? 7 : day;
-}
-
 function formatWeekNumberSunday(d, p) {
-  return pad(__WEBPACK_IMPORTED_MODULE_0_d3_time__["h" /* timeSunday */].count(Object(__WEBPACK_IMPORTED_MODULE_0_d3_time__["k" /* timeYear */])(d), d), p, 2);
+  return pad(__WEBPACK_IMPORTED_MODULE_0_d3_time__["h" /* timeSunday */].count(Object(__WEBPACK_IMPORTED_MODULE_0_d3_time__["j" /* timeYear */])(d), d), p, 2);
 }
 
-function formatWeekNumberISO(d, p) {
-  var day = d.getDay();
-  d = (day >= 4 || day === 0) ? Object(__WEBPACK_IMPORTED_MODULE_0_d3_time__["i" /* timeThursday */])(d) : __WEBPACK_IMPORTED_MODULE_0_d3_time__["i" /* timeThursday */].ceil(d);
-  return pad(__WEBPACK_IMPORTED_MODULE_0_d3_time__["i" /* timeThursday */].count(Object(__WEBPACK_IMPORTED_MODULE_0_d3_time__["k" /* timeYear */])(d), d) + (Object(__WEBPACK_IMPORTED_MODULE_0_d3_time__["k" /* timeYear */])(d).getDay() === 4), p, 2);
-}
-
-function formatWeekdayNumberSunday(d) {
+function formatWeekdayNumber(d) {
   return d.getDay();
 }
 
 function formatWeekNumberMonday(d, p) {
-  return pad(__WEBPACK_IMPORTED_MODULE_0_d3_time__["e" /* timeMonday */].count(Object(__WEBPACK_IMPORTED_MODULE_0_d3_time__["k" /* timeYear */])(d), d), p, 2);
+  return pad(__WEBPACK_IMPORTED_MODULE_0_d3_time__["e" /* timeMonday */].count(Object(__WEBPACK_IMPORTED_MODULE_0_d3_time__["j" /* timeYear */])(d), d), p, 2);
 }
 
 function formatYear(d, p) {
@@ -19213,15 +19093,11 @@ function formatUTCHour12(d, p) {
 }
 
 function formatUTCDayOfYear(d, p) {
-  return pad(1 + __WEBPACK_IMPORTED_MODULE_0_d3_time__["l" /* utcDay */].count(Object(__WEBPACK_IMPORTED_MODULE_0_d3_time__["v" /* utcYear */])(d), d), p, 3);
+  return pad(1 + __WEBPACK_IMPORTED_MODULE_0_d3_time__["k" /* utcDay */].count(Object(__WEBPACK_IMPORTED_MODULE_0_d3_time__["t" /* utcYear */])(d), d), p, 3);
 }
 
 function formatUTCMilliseconds(d, p) {
   return pad(d.getUTCMilliseconds(), p, 3);
-}
-
-function formatUTCMicroseconds(d, p) {
-  return formatUTCMilliseconds(d, p) + "000";
 }
 
 function formatUTCMonthNumber(d, p) {
@@ -19236,27 +19112,16 @@ function formatUTCSeconds(d, p) {
   return pad(d.getUTCSeconds(), p, 2);
 }
 
-function formatUTCWeekdayNumberMonday(d) {
-  var dow = d.getUTCDay();
-  return dow === 0 ? 7 : dow;
-}
-
 function formatUTCWeekNumberSunday(d, p) {
-  return pad(__WEBPACK_IMPORTED_MODULE_0_d3_time__["s" /* utcSunday */].count(Object(__WEBPACK_IMPORTED_MODULE_0_d3_time__["v" /* utcYear */])(d), d), p, 2);
+  return pad(__WEBPACK_IMPORTED_MODULE_0_d3_time__["r" /* utcSunday */].count(Object(__WEBPACK_IMPORTED_MODULE_0_d3_time__["t" /* utcYear */])(d), d), p, 2);
 }
 
-function formatUTCWeekNumberISO(d, p) {
-  var day = d.getUTCDay();
-  d = (day >= 4 || day === 0) ? Object(__WEBPACK_IMPORTED_MODULE_0_d3_time__["t" /* utcThursday */])(d) : __WEBPACK_IMPORTED_MODULE_0_d3_time__["t" /* utcThursday */].ceil(d);
-  return pad(__WEBPACK_IMPORTED_MODULE_0_d3_time__["t" /* utcThursday */].count(Object(__WEBPACK_IMPORTED_MODULE_0_d3_time__["v" /* utcYear */])(d), d) + (Object(__WEBPACK_IMPORTED_MODULE_0_d3_time__["v" /* utcYear */])(d).getUTCDay() === 4), p, 2);
-}
-
-function formatUTCWeekdayNumberSunday(d) {
+function formatUTCWeekdayNumber(d) {
   return d.getUTCDay();
 }
 
 function formatUTCWeekNumberMonday(d, p) {
-  return pad(__WEBPACK_IMPORTED_MODULE_0_d3_time__["p" /* utcMonday */].count(Object(__WEBPACK_IMPORTED_MODULE_0_d3_time__["v" /* utcYear */])(d), d), p, 2);
+  return pad(__WEBPACK_IMPORTED_MODULE_0_d3_time__["o" /* utcMonday */].count(Object(__WEBPACK_IMPORTED_MODULE_0_d3_time__["t" /* utcYear */])(d), d), p, 2);
 }
 
 function formatUTCYear(d, p) {
@@ -19275,14 +19140,6 @@ function formatLiteralPercent() {
   return "%";
 }
 
-function formatUnixTimestamp(d) {
-  return +d;
-}
-
-function formatUnixTimestampSeconds(d) {
-  return Math.floor(+d / 1000);
-}
-
 
 /***/ }),
 
@@ -19295,12 +19152,12 @@ function formatUnixTimestampSeconds(d) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_millisecond__ = __webpack_require__("../../../../d3-time/src/millisecond.js");
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_1__src_millisecond__["a"]; });
 /* unused harmony reexport timeMilliseconds */
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return __WEBPACK_IMPORTED_MODULE_1__src_millisecond__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return __WEBPACK_IMPORTED_MODULE_1__src_millisecond__["a"]; });
 /* unused harmony reexport utcMilliseconds */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_second__ = __webpack_require__("../../../../d3-time/src/second.js");
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return __WEBPACK_IMPORTED_MODULE_2__src_second__["a"]; });
 /* unused harmony reexport timeSeconds */
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "r", function() { return __WEBPACK_IMPORTED_MODULE_2__src_second__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return __WEBPACK_IMPORTED_MODULE_2__src_second__["a"]; });
 /* unused harmony reexport utcSeconds */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__src_minute__ = __webpack_require__("../../../../d3-time/src/minute.js");
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_3__src_minute__["a"]; });
@@ -19312,7 +19169,7 @@ function formatUnixTimestampSeconds(d) {
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_5__src_day__["a"]; });
 /* unused harmony reexport timeDays */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__src_week__ = __webpack_require__("../../../../d3-time/src/week.js");
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return __WEBPACK_IMPORTED_MODULE_6__src_week__["b"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return __WEBPACK_IMPORTED_MODULE_6__src_week__["b"]; });
 /* unused harmony reexport timeWeeks */
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return __WEBPACK_IMPORTED_MODULE_6__src_week__["b"]; });
 /* unused harmony reexport timeSundays */
@@ -19322,7 +19179,7 @@ function formatUnixTimestampSeconds(d) {
 /* unused harmony reexport timeTuesdays */
 /* unused harmony reexport timeWednesday */
 /* unused harmony reexport timeWednesdays */
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return __WEBPACK_IMPORTED_MODULE_6__src_week__["c"]; });
+/* unused harmony reexport timeThursday */
 /* unused harmony reexport timeThursdays */
 /* unused harmony reexport timeFriday */
 /* unused harmony reexport timeFridays */
@@ -19332,39 +19189,39 @@ function formatUnixTimestampSeconds(d) {
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return __WEBPACK_IMPORTED_MODULE_7__src_month__["a"]; });
 /* unused harmony reexport timeMonths */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__src_year__ = __webpack_require__("../../../../d3-time/src/year.js");
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return __WEBPACK_IMPORTED_MODULE_8__src_year__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return __WEBPACK_IMPORTED_MODULE_8__src_year__["a"]; });
 /* unused harmony reexport timeYears */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__src_utcMinute__ = __webpack_require__("../../../../d3-time/src/utcMinute.js");
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return __WEBPACK_IMPORTED_MODULE_9__src_utcMinute__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return __WEBPACK_IMPORTED_MODULE_9__src_utcMinute__["a"]; });
 /* unused harmony reexport utcMinutes */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__src_utcHour__ = __webpack_require__("../../../../d3-time/src/utcHour.js");
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return __WEBPACK_IMPORTED_MODULE_10__src_utcHour__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return __WEBPACK_IMPORTED_MODULE_10__src_utcHour__["a"]; });
 /* unused harmony reexport utcHours */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__src_utcDay__ = __webpack_require__("../../../../d3-time/src/utcDay.js");
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return __WEBPACK_IMPORTED_MODULE_11__src_utcDay__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return __WEBPACK_IMPORTED_MODULE_11__src_utcDay__["a"]; });
 /* unused harmony reexport utcDays */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__src_utcWeek__ = __webpack_require__("../../../../d3-time/src/utcWeek.js");
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "u", function() { return __WEBPACK_IMPORTED_MODULE_12__src_utcWeek__["b"]; });
-/* unused harmony reexport utcWeeks */
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "s", function() { return __WEBPACK_IMPORTED_MODULE_12__src_utcWeek__["b"]; });
+/* unused harmony reexport utcWeeks */
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "r", function() { return __WEBPACK_IMPORTED_MODULE_12__src_utcWeek__["b"]; });
 /* unused harmony reexport utcSundays */
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return __WEBPACK_IMPORTED_MODULE_12__src_utcWeek__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return __WEBPACK_IMPORTED_MODULE_12__src_utcWeek__["a"]; });
 /* unused harmony reexport utcMondays */
 /* unused harmony reexport utcTuesday */
 /* unused harmony reexport utcTuesdays */
 /* unused harmony reexport utcWednesday */
 /* unused harmony reexport utcWednesdays */
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "t", function() { return __WEBPACK_IMPORTED_MODULE_12__src_utcWeek__["c"]; });
+/* unused harmony reexport utcThursday */
 /* unused harmony reexport utcThursdays */
 /* unused harmony reexport utcFriday */
 /* unused harmony reexport utcFridays */
 /* unused harmony reexport utcSaturday */
 /* unused harmony reexport utcSaturdays */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__src_utcMonth__ = __webpack_require__("../../../../d3-time/src/utcMonth.js");
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return __WEBPACK_IMPORTED_MODULE_13__src_utcMonth__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return __WEBPACK_IMPORTED_MODULE_13__src_utcMonth__["a"]; });
 /* unused harmony reexport utcMonths */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__src_utcYear__ = __webpack_require__("../../../../d3-time/src/utcYear.js");
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "v", function() { return __WEBPACK_IMPORTED_MODULE_14__src_utcYear__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "t", function() { return __WEBPACK_IMPORTED_MODULE_14__src_utcYear__["a"]; });
 /* unused harmony reexport utcYears */
 
 
@@ -19502,12 +19359,11 @@ function newInterval(floori, offseti, count, field) {
   };
 
   interval.range = function(start, stop, step) {
-    var range = [], previous;
+    var range = [];
     start = interval.ceil(start);
     step = step == null ? 1 : Math.floor(step);
     if (!(start < stop) || !(step > 0)) return range; // also handles Invalid Date
-    do range.push(previous = new Date(+start)), offseti(start, step), floori(start);
-    while (previous < start && start < stop);
+    do range.push(new Date(+start)); while (offseti(start, step), floori(start), start < stop)
     return range;
   };
 
@@ -19772,7 +19628,7 @@ var utcMonths = utcMonth.range;
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return utcMonday; });
 /* unused harmony export utcTuesday */
 /* unused harmony export utcWednesday */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return utcThursday; });
+/* unused harmony export utcThursday */
 /* unused harmony export utcFriday */
 /* unused harmony export utcSaturday */
 /* unused harmony export utcSundays */
@@ -19861,7 +19717,7 @@ var utcYears = utcYear.range;
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return monday; });
 /* unused harmony export tuesday */
 /* unused harmony export wednesday */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return thursday; });
+/* unused harmony export thursday */
 /* unused harmony export friday */
 /* unused harmony export saturday */
 /* unused harmony export sundays */
@@ -20790,20 +20646,20 @@ var ENDED = 6;
 });
 
 function init(node, id) {
-  var schedule = get(node, id);
-  if (schedule.state > CREATED) throw new Error("too late; already scheduled");
+  var schedule = node.__transition;
+  if (!schedule || !(schedule = schedule[id]) || schedule.state > CREATED) throw new Error("too late");
   return schedule;
 }
 
 function set(node, id) {
-  var schedule = get(node, id);
-  if (schedule.state > STARTING) throw new Error("too late; already started");
+  var schedule = node.__transition;
+  if (!schedule || !(schedule = schedule[id]) || schedule.state > STARTING) throw new Error("too late");
   return schedule;
 }
 
 function get(node, id) {
   var schedule = node.__transition;
-  if (!schedule || !(schedule = schedule[id])) throw new Error("transition not found");
+  if (!schedule || !(schedule = schedule[id])) throw new Error("too late");
   return schedule;
 }
 
@@ -22556,25 +22412,17 @@ function defaultTouchable() {
   return "ontouchstart" in this;
 }
 
-function defaultConstrain(transform, extent, translateExtent) {
-  var dx0 = transform.invertX(extent[0][0]) - translateExtent[0][0],
-      dx1 = transform.invertX(extent[1][0]) - translateExtent[1][0],
-      dy0 = transform.invertY(extent[0][1]) - translateExtent[0][1],
-      dy1 = transform.invertY(extent[1][1]) - translateExtent[1][1];
-  return transform.translate(
-    dx1 > dx0 ? (dx0 + dx1) / 2 : Math.min(0, dx0) || Math.max(0, dx1),
-    dy1 > dy0 ? (dy0 + dy1) / 2 : Math.min(0, dy0) || Math.max(0, dy1)
-  );
-}
-
 /* unused harmony default export */ var _unused_webpack_default_export = (function() {
   var filter = defaultFilter,
       extent = defaultExtent,
-      constrain = defaultConstrain,
       wheelDelta = defaultWheelDelta,
       touchable = defaultTouchable,
-      scaleExtent = [0, Infinity],
-      translateExtent = [[-Infinity, -Infinity], [Infinity, Infinity]],
+      k0 = 0,
+      k1 = Infinity,
+      x0 = -k1,
+      x1 = k1,
+      y0 = x0,
+      y1 = x1,
       duration = 250,
       interpolate = __WEBPACK_IMPORTED_MODULE_2_d3_interpolate__["i" /* interpolateZoom */],
       gestures = [],
@@ -22629,7 +22477,7 @@ function defaultConstrain(transform, extent, translateExtent) {
           p0 = centroid(e),
           p1 = t0.invert(p0),
           k1 = typeof k === "function" ? k.apply(this, arguments) : k;
-      return constrain(translate(scale(t0, k1), p0, p1), e, translateExtent);
+      return constrain(translate(scale(t0, k1), p0, p1), e);
     });
   };
 
@@ -22638,7 +22486,7 @@ function defaultConstrain(transform, extent, translateExtent) {
       return constrain(this.__zoom.translate(
         typeof x === "function" ? x.apply(this, arguments) : x,
         typeof y === "function" ? y.apply(this, arguments) : y
-      ), extent.apply(this, arguments), translateExtent);
+      ), extent.apply(this, arguments));
     });
   };
 
@@ -22650,18 +22498,29 @@ function defaultConstrain(transform, extent, translateExtent) {
       return constrain(__WEBPACK_IMPORTED_MODULE_7__transform__["b" /* identity */].translate(p[0], p[1]).scale(t.k).translate(
         typeof x === "function" ? -x.apply(this, arguments) : -x,
         typeof y === "function" ? -y.apply(this, arguments) : -y
-      ), e, translateExtent);
+      ), e);
     });
   };
 
   function scale(transform, k) {
-    k = Math.max(scaleExtent[0], Math.min(scaleExtent[1], k));
+    k = Math.max(k0, Math.min(k1, k));
     return k === transform.k ? transform : new __WEBPACK_IMPORTED_MODULE_7__transform__["a" /* Transform */](k, transform.x, transform.y);
   }
 
   function translate(transform, p0, p1) {
     var x = p0[0] - p1[0] * transform.k, y = p0[1] - p1[1] * transform.k;
     return x === transform.x && y === transform.y ? transform : new __WEBPACK_IMPORTED_MODULE_7__transform__["a" /* Transform */](transform.k, x, y);
+  }
+
+  function constrain(transform, extent) {
+    var dx0 = transform.invertX(extent[0][0]) - x0,
+        dx1 = transform.invertX(extent[1][0]) - x1,
+        dy0 = transform.invertY(extent[0][1]) - y0,
+        dy1 = transform.invertY(extent[1][1]) - y1;
+    return transform.translate(
+      dx1 > dx0 ? (dx0 + dx1) / 2 : Math.min(0, dx0) || Math.max(0, dx1),
+      dy1 > dy0 ? (dy0 + dy1) / 2 : Math.min(0, dy0) || Math.max(0, dy1)
+    );
   }
 
   function centroid(extent) {
@@ -22740,7 +22599,7 @@ function defaultConstrain(transform, extent, translateExtent) {
     if (!filter.apply(this, arguments)) return;
     var g = gesture(this, arguments),
         t = this.__zoom,
-        k = Math.max(scaleExtent[0], Math.min(scaleExtent[1], t.k * Math.pow(2, wheelDelta.apply(this, arguments)))),
+        k = Math.max(k0, Math.min(k1, t.k * Math.pow(2, wheelDelta.apply(this, arguments)))),
         p = Object(__WEBPACK_IMPORTED_MODULE_3_d3_selection__["d" /* mouse */])(this);
 
     // If the mouse is in the same location as before, reuse it.
@@ -22764,7 +22623,7 @@ function defaultConstrain(transform, extent, translateExtent) {
 
     Object(__WEBPACK_IMPORTED_MODULE_8__noevent__["a" /* default */])();
     g.wheel = setTimeout(wheelidled, wheelDelay);
-    g.zoom("mouse", constrain(translate(scale(t, k), g.mouse[0], g.mouse[1]), g.extent, translateExtent));
+    g.zoom("mouse", constrain(translate(scale(t, k), g.mouse[0], g.mouse[1]), g.extent));
 
     function wheelidled() {
       g.wheel = null;
@@ -22792,7 +22651,7 @@ function defaultConstrain(transform, extent, translateExtent) {
         var dx = __WEBPACK_IMPORTED_MODULE_3_d3_selection__["b" /* event */].clientX - x0, dy = __WEBPACK_IMPORTED_MODULE_3_d3_selection__["b" /* event */].clientY - y0;
         g.moved = dx * dx + dy * dy > clickDistance2;
       }
-      g.zoom("mouse", constrain(translate(g.that.__zoom, g.mouse[0] = Object(__WEBPACK_IMPORTED_MODULE_3_d3_selection__["d" /* mouse */])(g.that), g.mouse[1]), g.extent, translateExtent));
+      g.zoom("mouse", constrain(translate(g.that.__zoom, g.mouse[0] = Object(__WEBPACK_IMPORTED_MODULE_3_d3_selection__["d" /* mouse */])(g.that), g.mouse[1]), g.extent));
     }
 
     function mouseupped() {
@@ -22809,7 +22668,7 @@ function defaultConstrain(transform, extent, translateExtent) {
         p0 = Object(__WEBPACK_IMPORTED_MODULE_3_d3_selection__["d" /* mouse */])(this),
         p1 = t0.invert(p0),
         k1 = t0.k * (__WEBPACK_IMPORTED_MODULE_3_d3_selection__["b" /* event */].shiftKey ? 0.5 : 2),
-        t1 = constrain(translate(scale(t0, k1), p0, p1), extent.apply(this, arguments), translateExtent);
+        t1 = constrain(translate(scale(t0, k1), p0, p1), extent.apply(this, arguments));
 
     Object(__WEBPACK_IMPORTED_MODULE_8__noevent__["a" /* default */])();
     if (duration > 0) Object(__WEBPACK_IMPORTED_MODULE_3_d3_selection__["f" /* select */])(this).transition().duration(duration).call(schedule, t1, p0);
@@ -22873,7 +22732,7 @@ function defaultConstrain(transform, extent, translateExtent) {
     }
     else if (g.touch0) p = g.touch0[0], l = g.touch0[1];
     else return;
-    g.zoom("touch", constrain(translate(t, p, l), g.extent, translateExtent));
+    g.zoom("touch", constrain(translate(t, p, l), g.extent));
   }
 
   function touchended() {
@@ -22911,15 +22770,11 @@ function defaultConstrain(transform, extent, translateExtent) {
   };
 
   zoom.scaleExtent = function(_) {
-    return arguments.length ? (scaleExtent[0] = +_[0], scaleExtent[1] = +_[1], zoom) : [scaleExtent[0], scaleExtent[1]];
+    return arguments.length ? (k0 = +_[0], k1 = +_[1], zoom) : [k0, k1];
   };
 
   zoom.translateExtent = function(_) {
-    return arguments.length ? (translateExtent[0][0] = +_[0][0], translateExtent[1][0] = +_[1][0], translateExtent[0][1] = +_[0][1], translateExtent[1][1] = +_[1][1], zoom) : [[translateExtent[0][0], translateExtent[0][1]], [translateExtent[1][0], translateExtent[1][1]]];
-  };
-
-  zoom.constrain = function(_) {
-    return arguments.length ? (constrain = _, zoom) : constrain;
+    return arguments.length ? (x0 = +_[0][0], x1 = +_[1][0], y0 = +_[0][1], y1 = +_[1][1], zoom) : [[x0, y0], [x1, y1]];
   };
 
   zoom.duration = function(_) {
@@ -22965,7 +22820,7 @@ function defaultConstrain(transform, extent, translateExtent) {
 /* unused harmony export devDependencies */
 /* unused harmony export dependencies */
 var name = "d3";
-var version = "4.12.0";
+var version = "4.11.0";
 var description = "Data-Driven Documents";
 var keywords = ["dom","visualization","svg","animation","canvas"];
 var homepage = "https://d3js.org";
@@ -22977,8 +22832,8 @@ var jsdelivr = "build/d3.js";
 var module = "index";
 var repository = {"type":"git","url":"https://github.com/d3/d3.git"};
 var scripts = {"pretest":"rimraf build && mkdir build && json2module package.json > build/package.js && node rollup.node","test":"tape 'test/**/*-test.js'","prepublishOnly":"npm run test && rollup -c --banner \"$(preamble)\" && uglifyjs -b beautify=false,preamble=\"'$(preamble)'\" build/d3.js -c negate_iife=false -m -o build/d3.min.js","postpublish":"git push && git push --tags && cd ../d3.github.com && git pull && cp ../d3/build/d3.js d3.v4.js && cp ../d3/build/d3.min.js d3.v4.min.js && git add d3.v4.js d3.v4.min.js && git commit -m \"d3 ${npm_package_version}\" && git push && cd - && cd ../d3-bower && git pull && cp ../d3/LICENSE ../d3/README.md ../d3/build/d3.js ../d3/build/d3.min.js . && git add -- LICENSE README.md d3.js d3.min.js && git commit -m \"${npm_package_version}\" && git tag -am \"${npm_package_version}\" v${npm_package_version} && git push && git push --tags && cd - && zip -j build/d3.zip -- LICENSE README.md API.md CHANGES.md build/d3.js build/d3.min.js"};
-var devDependencies = {"json2module":"0.0","package-preamble":"0.1","rimraf":"2","rollup":"0.51","rollup-plugin-ascii":"0.0","rollup-plugin-node-resolve":"3","tape":"4","uglify-js":"3"};
-var dependencies = {"d3-array":"1.2.1","d3-axis":"1.0.8","d3-brush":"1.0.4","d3-chord":"1.0.4","d3-collection":"1.0.4","d3-color":"1.0.3","d3-dispatch":"1.0.3","d3-drag":"1.2.1","d3-dsv":"1.0.8","d3-ease":"1.0.3","d3-force":"1.1.0","d3-format":"1.2.1","d3-geo":"1.9.0","d3-hierarchy":"1.1.5","d3-interpolate":"1.1.6","d3-path":"1.0.5","d3-polygon":"1.0.3","d3-quadtree":"1.0.3","d3-queue":"3.0.7","d3-random":"1.1.0","d3-request":"1.0.6","d3-scale":"1.0.7","d3-selection":"1.2.0","d3-shape":"1.2.0","d3-time":"1.0.8","d3-time-format":"2.1.1","d3-timer":"1.0.7","d3-transition":"1.1.1","d3-voronoi":"1.1.2","d3-zoom":"1.7.1"};
+var devDependencies = {"json2module":"0.0","package-preamble":"0.1","rimraf":"2","rollup":"0.50","rollup-plugin-ascii":"0.0","rollup-plugin-node-resolve":"3","tape":"4","uglify-js":"3"};
+var dependencies = {"d3-array":"1.2.1","d3-axis":"1.0.8","d3-brush":"1.0.4","d3-chord":"1.0.4","d3-collection":"1.0.4","d3-color":"1.0.3","d3-dispatch":"1.0.3","d3-drag":"1.2.1","d3-dsv":"1.0.7","d3-ease":"1.0.3","d3-force":"1.1.0","d3-format":"1.2.0","d3-geo":"1.8.1","d3-hierarchy":"1.1.5","d3-interpolate":"1.1.5","d3-path":"1.0.5","d3-polygon":"1.0.3","d3-quadtree":"1.0.3","d3-queue":"3.0.7","d3-random":"1.1.0","d3-request":"1.0.6","d3-scale":"1.0.6","d3-selection":"1.1.0","d3-shape":"1.2.0","d3-time":"1.0.7","d3-time-format":"2.0.5","d3-timer":"1.0.7","d3-transition":"1.1.0","d3-voronoi":"1.1.2","d3-zoom":"1.6.0"};
 
 
 /***/ }),
@@ -26218,7 +26073,7 @@ module.exports = g;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_tslib__ = __webpack_require__("../../../../tslib/tslib.es6.js");
 /**
- * @license Angular v5.0.3
+ * @license Angular v5.0.1
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -32316,8 +32171,8 @@ var PercentPipe = (function () {
  * - `currencyCode` is the [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code, such
  *    as `USD` for the US dollar and `EUR` for the euro.
  * - `display` indicates whether to show the currency symbol or the code.
- *   - `code`: use code (e.g. `USD`).
- *   - `symbol`(default): use symbol (e.g. `$`).
+ *   - `code`(default): use code (e.g. `USD`).
+ *   - `symbol`: use symbol (e.g. `$`).
  *   - `symbol-narrow`: some countries have two symbols for their currency, one regular and one
  *   narrow (e.g. the canadian dollar CAD has the symbol `CA$` and the symbol-narrow `$`).
  *   - boolean (deprecated from v5): `true` for symbol and false for `code`
@@ -32664,7 +32519,7 @@ function isPlatformWorkerUi(platformId) {
 /**
  * \@stable
  */
-var VERSION = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["_2" /* Version */]('5.0.3');
+var VERSION = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["_2" /* Version */]('5.0.1');
 
 /**
  * @fileoverview added by tsickle
@@ -32939,7 +32794,7 @@ var VERSION = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["_2" /* Version */
 /* unused harmony export removeSummaryDuplicates */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_tslib__ = __webpack_require__("../../../../tslib/tslib.es6.js");
 /**
- * @license Angular v5.0.3
+ * @license Angular v5.0.1
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -33559,7 +33414,7 @@ var Version = (function () {
 /**
  * \@stable
  */
-var VERSION = new Version('5.0.3');
+var VERSION = new Version('5.0.1');
 
 /**
  * @fileoverview added by tsickle
@@ -40386,8 +40241,7 @@ var ParseError = (function () {
      */
     function () {
         var /** @type {?} */ ctx = this.span.start.getContext(100, 3);
-        return ctx ? this.msg + " (\"" + ctx.before + "[" + ParseErrorLevel[this.level] + " ->]" + ctx.after + "\")" :
-            this.msg;
+        return ctx ? " (\"" + ctx.before + "[" + ParseErrorLevel[this.level] + " ->]" + ctx.after + "\")" : '';
     };
     /**
      * @return {?}
@@ -40397,7 +40251,7 @@ var ParseError = (function () {
      */
     function () {
         var /** @type {?} */ details = this.span.details ? ", " + this.span.details : '';
-        return this.contextualMessage() + ": " + this.span.start + details;
+        return "" + this.msg + this.contextualMessage() + ": " + this.span.start + details;
     };
     return ParseError;
 }());
@@ -55818,31 +55672,17 @@ var ShadowCss = (function () {
         var /** @type {?} */ startIndex = 0;
         var /** @type {?} */ res;
         var /** @type {?} */ sep = /( |>|\+|~(?!=))\s*/g;
-        // If a selector appears before :host it should not be shimmed as it
-        // matches on ancestor elements and not on elements in the host's shadow
-        // `:host-context(div)` is transformed to
-        // `-shadowcsshost-no-combinatordiv, div -shadowcsshost-no-combinator`
-        // the `div` is not part of the component in the 2nd selectors and should not be scoped.
-        // Historically `component-tag:host` was matching the component so we also want to preserve
-        // this behavior to avoid breaking legacy apps (it should not match).
-        // The behavior should be:
-        // - `tag:host` -> `tag[h]` (this is to avoid breaking legacy apps, should not match anything)
-        // - `tag :host` -> `tag [h]` (`tag` is not scoped because it's considered part of a
-        //   `:host-context(tag)`)
-        var /** @type {?} */ hasHost = selector.indexOf(_polyfillHostNoCombinator) > -1;
-        // Only scope parts after the first `-shadowcsshost-no-combinator` when it is present
-        var /** @type {?} */ shouldScope = !hasHost;
+        var /** @type {?} */ scopeAfter = selector.indexOf(_polyfillHostNoCombinator);
         while ((res = sep.exec(selector)) !== null) {
             var /** @type {?} */ separator = res[1];
-            var /** @type {?} */ part_1 = selector.slice(startIndex, res.index).trim();
-            shouldScope = shouldScope || part_1.indexOf(_polyfillHostNoCombinator) > -1;
-            var /** @type {?} */ scopedPart = shouldScope ? _scopeSelectorPart(part_1) : part_1;
+            var /** @type {?} */ part = selector.slice(startIndex, res.index).trim();
+            // if a selector appears before :host-context it should not be shimmed as it
+            // matches on ancestor elements and not on elements in the host's shadow
+            var /** @type {?} */ scopedPart = startIndex >= scopeAfter ? _scopeSelectorPart(part) : part;
             scopedSelector += scopedPart + " " + separator + " ";
             startIndex = sep.lastIndex;
         }
-        var /** @type {?} */ part = selector.substring(startIndex);
-        shouldScope = shouldScope || part.indexOf(_polyfillHostNoCombinator) > -1;
-        scopedSelector += shouldScope ? _scopeSelectorPart(part) : part;
+        scopedSelector += _scopeSelectorPart(selector.substring(startIndex));
         // replace the placeholders with their original values
         return safeContent.restore(scopedSelector);
     };
@@ -59517,28 +59357,6 @@ var TypeCheckCompiler = (function () {
     return TypeCheckCompiler;
 }());
 var DYNAMIC_VAR_NAME = '_any';
-var TypeCheckLocalResolver = (function () {
-    function TypeCheckLocalResolver() {
-    }
-    /**
-     * @param {?} name
-     * @return {?}
-     */
-    TypeCheckLocalResolver.prototype.getLocal = /**
-     * @param {?} name
-     * @return {?}
-     */
-    function (name) {
-        if (name === EventHandlerVars.event.name) {
-            // References to the event should not be type-checked.
-            // TODO(chuckj): determine a better type for the event.
-            return variable(DYNAMIC_VAR_NAME);
-        }
-        return null;
-    };
-    return TypeCheckLocalResolver;
-}());
-var defaultResolver = new TypeCheckLocalResolver();
 var ViewBuilder = (function () {
     function ViewBuilder(options, reflector, externalReferenceVars, parent, component, isHostComponent, embeddedViewIndex, pipes, viewBuilderFactory) {
         this.options = options;
@@ -59613,7 +59431,7 @@ var ViewBuilder = (function () {
         this.updates.forEach(function (expression) {
             var _a = _this.preprocessUpdateExpression(expression), sourceSpan = _a.sourceSpan, context = _a.context, value = _a.value;
             var /** @type {?} */ bindingId = "" + bindingCount++;
-            var /** @type {?} */ nameResolver = context === _this.component ? _this : defaultResolver;
+            var /** @type {?} */ nameResolver = context === _this.component ? _this : null;
             var _b = convertPropertyBinding(nameResolver, variable(_this.getOutputVar(context)), value, bindingId), stmts = _b.stmts, currValExpr = _b.currValExpr;
             stmts.push(new ExpressionStatement(currValExpr));
             viewStmts.push.apply(viewStmts, stmts.map(function (stmt) { return applySourceSpanToStatementIfNeeded(stmt, sourceSpan); }));
@@ -59621,7 +59439,7 @@ var ViewBuilder = (function () {
         this.actions.forEach(function (_a) {
             var sourceSpan = _a.sourceSpan, context = _a.context, value = _a.value;
             var /** @type {?} */ bindingId = "" + bindingCount++;
-            var /** @type {?} */ nameResolver = context === _this.component ? _this : defaultResolver;
+            var /** @type {?} */ nameResolver = context === _this.component ? _this : null;
             var stmts = convertActionBinding(nameResolver, variable(_this.getOutputVar(context)), value, bindingId).stmts;
             viewStmts.push.apply(viewStmts, stmts.map(function (stmt) { return applySourceSpanToStatementIfNeeded(stmt, sourceSpan); }));
         });
@@ -62399,7 +62217,7 @@ var AotCompiler = (function () {
             // These can be used by the type check block for components,
             // and they also cause TypeScript to include these files into the program too,
             // which will make them part of the analyzedFiles.
-            var /** @type {?} */ externalReferences = ngModuleMeta.transitiveModule.directives.map(function (d) { return d.reference; }).concat(ngModuleMeta.transitiveModule.pipes.map(function (d) { return d.reference; }), ngModuleMeta.importedModules.map(function (m) { return m.type.reference; }), ngModuleMeta.exportedModules.map(function (m) { return m.type.reference; }), _this._externalIdentifierReferences([Identifiers.TemplateRef, Identifiers.ElementRef]));
+            var /** @type {?} */ externalReferences = ngModuleMeta.transitiveModule.directives.map(function (d) { return d.reference; }).concat(ngModuleMeta.transitiveModule.pipes.map(function (d) { return d.reference; }), ngModuleMeta.importedModules.map(function (m) { return m.type.reference; }), ngModuleMeta.exportedModules.map(function (m) { return m.type.reference; }));
             var /** @type {?} */ externalReferenceVars = new Map();
             externalReferences.forEach(function (ref, typeIndex) {
                 if (_this._host.isSourceFile(ref.filePath)) {
@@ -62427,25 +62245,6 @@ var AotCompiler = (function () {
         if (outputCtx.statements.length === 0) {
             _createEmptyStub(outputCtx);
         }
-    };
-    /**
-     * @param {?} references
-     * @return {?}
-     */
-    AotCompiler.prototype._externalIdentifierReferences = /**
-     * @param {?} references
-     * @return {?}
-     */
-    function (references) {
-        var /** @type {?} */ result = [];
-        for (var _i = 0, references_1 = references; _i < references_1.length; _i++) {
-            var reference = references_1[_i];
-            var /** @type {?} */ token = createTokenForExternalReference(this._reflector, reference);
-            if (token.identifier) {
-                result.push(token.identifier.reference);
-            }
-        }
-        return result;
     };
     /**
      * @param {?} ctx
@@ -63037,16 +62836,16 @@ function analyzeFile(host, staticSymbolResolver, metadataResolver, fileName) {
                     isNgSymbol = true;
                     pipes.push(symbol);
                 }
-                else if (metadataResolver.isNgModule(symbol)) {
+                else if (metadataResolver.isInjectable(symbol)) {
+                    isNgSymbol = true;
+                    injectables.push(symbol);
+                }
+                else {
                     var /** @type {?} */ ngModule = metadataResolver.getNgModuleMetadata(symbol, false);
                     if (ngModule) {
                         isNgSymbol = true;
                         ngModules.push(ngModule);
                     }
-                }
-                else if (metadataResolver.isInjectable(symbol)) {
-                    isNgSymbol = true;
-                    injectables.push(symbol);
                 }
             }
             if (!isNgSymbol) {
@@ -67555,7 +67354,7 @@ var Extractor = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_operator_share__ = __webpack_require__("../../../../rxjs/_esm5/operator/share.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_Subject__ = __webpack_require__("../../../../rxjs/_esm5/Subject.js");
 /**
- * @license Angular v5.0.3
+ * @license Angular v5.0.1
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -68223,7 +68022,7 @@ var Version = (function () {
 /**
  * \@stable
  */
-var VERSION = new Version('5.0.3');
+var VERSION = new Version('5.0.1');
 
 /**
  * @fileoverview added by tsickle
@@ -71909,7 +71708,7 @@ var NgZone = (function () {
          */
         this.onError = new EventEmitter(false);
         if (typeof Zone == 'undefined') {
-            throw new Error("In this configuration Angular requires Zone.js");
+            throw new Error('Angular requires Zone.js prolyfill.');
         }
         Zone.assertZonePatched();
         var /** @type {?} */ self = /** @type {?} */ ((this));
@@ -84072,7 +83871,7 @@ function transition$$1(stateChangeExpr, steps) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_platform_browser__ = __webpack_require__("../../../platform-browser/esm5/platform-browser.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_tslib__ = __webpack_require__("../../../../tslib/tslib.es6.js");
 /**
- * @license Angular v5.0.3
+ * @license Angular v5.0.1
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -84723,7 +84522,7 @@ var CachedResourceLoader = (function (_super) {
 /**
  * \@stable
  */
-var VERSION = new __WEBPACK_IMPORTED_MODULE_1__angular_core__["_2" /* Version */]('5.0.3');
+var VERSION = new __WEBPACK_IMPORTED_MODULE_1__angular_core__["_2" /* Version */]('5.0.1');
 
 /**
  * @fileoverview added by tsickle
@@ -84834,7 +84633,7 @@ var platformBrowserDynamic = Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__[
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_tslib__ = __webpack_require__("../../../../tslib/tslib.es6.js");
 /**
- * @license Angular v5.0.3
+ * @license Angular v5.0.1
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -87981,7 +87780,6 @@ var NATIVE_ADD_LISTENER = 'addEventListener';
 var NATIVE_REMOVE_LISTENER = 'removeEventListener';
 // use the same symbol string which is used in zone.js
 var stopSymbol = '__zone_symbol__propagationStopped';
-var stopMethodSymbol = '__zone_symbol__stopImmediatePropagation';
 var blackListedEvents = (typeof Zone !== 'undefined') && (/** @type {?} */ (Zone))[__symbol__('BLACK_LISTED_EVENTS')];
 var blackListedMap;
 if (blackListedEvents) {
@@ -88022,8 +87820,6 @@ var globalListener = function (event) {
         // itself or others
         var /** @type {?} */ copiedTasks = taskDatas.slice();
         for (var /** @type {?} */ i = 0; i < copiedTasks.length; i++) {
-            // if other listener call event.stopImmediatePropagation
-            // just break
             if ((/** @type {?} */ (event))[stopSymbol] === true) {
                 break;
             }
@@ -88056,20 +87852,16 @@ var DomEventsPlugin = (function (_super) {
         if (!Event || !Event.prototype) {
             return;
         }
-        if ((/** @type {?} */ (Event.prototype))[stopMethodSymbol]) {
+        var /** @type {?} */ symbol = '__zone_symbol__stopImmediatePropagation';
+        if ((/** @type {?} */ (Event.prototype))[symbol]) {
             // already patched by zone.js
             return;
         }
-        var /** @type {?} */ delegate = (/** @type {?} */ (Event.prototype))[stopMethodSymbol] =
-            Event.prototype.stopImmediatePropagation;
+        (/** @type {?} */ (Event.prototype))[symbol] = Event.prototype.stopImmediatePropagation;
         Event.prototype.stopImmediatePropagation = function () {
             if (this) {
                 this[stopSymbol] = true;
             }
-            // should call native delegate in case
-            // in some enviroment part of the application
-            // will not use the patched Event
-            delegate && delegate.apply(this, arguments);
         };
     };
     // This plugin should come last in the list of plugins, because it accepts all
@@ -88175,27 +87967,16 @@ var DomEventsPlugin = (function (_super) {
             // just call native removeEventListener
             return target[NATIVE_REMOVE_LISTENER].apply(target, [eventName, callback, false]);
         }
-        // fix issue 20532, should be able to remove
-        // listener which was added inside of ngZone
-        var /** @type {?} */ found = false;
         for (var /** @type {?} */ i = 0; i < taskDatas.length; i++) {
             // remove listener from taskDatas if the callback equals
             if (taskDatas[i].handler === callback) {
-                found = true;
                 taskDatas.splice(i, 1);
                 break;
             }
         }
-        if (found) {
-            if (taskDatas.length === 0) {
-                // all listeners are removed, we can remove the globalListener from target
-                underlyingRemove.apply(target, [eventName, globalListener, false]);
-            }
-        }
-        else {
-            // not found in taskDatas, the callback may be added inside of ngZone
-            // use native remove listener to remove the calback
-            target[NATIVE_REMOVE_LISTENER].apply(target, [eventName, callback, false]);
+        if (taskDatas.length === 0) {
+            // all listeners are removed, we can remove the globalListener from target
+            underlyingRemove.apply(target, [eventName, globalListener, false]);
         }
     };
     DomEventsPlugin.decorators = [
@@ -90003,7 +89784,7 @@ var By = (function () {
 /**
  * \@stable
  */
-var VERSION = new __WEBPACK_IMPORTED_MODULE_1__angular_core__["_2" /* Version */]('5.0.3');
+var VERSION = new __WEBPACK_IMPORTED_MODULE_1__angular_core__["_2" /* Version */]('5.0.1');
 
 /**
  * @fileoverview added by tsickle

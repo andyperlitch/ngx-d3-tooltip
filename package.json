@@ -14,7 +14,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --base-href /demo/ --output-path docs/demo",
+    "build": "ng build --base-href /ngx-d3-tooltip/demo/ --output-path docs/demo",
     "test": "ng test -cc -sr",
     "test-watch": "ng test",
     "lint": "ng lint",
